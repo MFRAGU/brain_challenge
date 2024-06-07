@@ -1,18 +1,24 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System.Linq;
-using TMPro;
+using System;
+using System.Collections.Generic;
 
 public class MainMenuScript : MonoBehaviour 
 {
-    [SerializeField]
-    private Dropdown difficultyDropdown;
-    
-    [SerializeField]
-    private TableObject tableObject; 
+   public Dropdown difficultyDropdown;
+   public GameObject settingsWindow;
+   private readonly List<string> difficulties = new();
 
-   public void StartGame()
+    public void Start()
+    {
+        initDifficulties();
+        difficultyDropdown.ClearOptions();
+        difficultyDropdown.AddOptions(difficulties);
+        
+    }
+
+    public void StartGame()
     {
         SceneLoader.LoadScene(SceneName.QuestionScene);
     }
@@ -22,20 +28,22 @@ public class MainMenuScript : MonoBehaviour
         Application.Quit();
     }
 
-    private void Start()
+    public void OpenSettings()
     {
-        // Initialiser le dropdown avec les valeurs de l'enum
-        difficultyDropdown.ClearOptions();
-        difficultyDropdown.AddOptions(System.Enum.GetNames(typeof(DifficultyLevel)).ToList());
-        difficultyDropdown.onValueChanged.AddListener(OnDifficultyChanged);
-
-        // Sélectionner la valeur par défaut
-        difficultyDropdown.value = (int)DifficultyLevel.Default;
+        settingsWindow.SetActive(true);
     }
 
-    private void OnDifficultyChanged(int index)
+    public void CloseSettings()
     {
-        DifficultyLevel selectedDifficulty = (DifficultyLevel)index;
-        tableObject.DifficultyLevel = selectedDifficulty;
+        settingsWindow.SetActive(false);
+    }
+
+    private void initDifficulties()
+    {
+        foreach (DifficultyLevel difficultyLevel in Enum.GetValues(typeof(DifficultyLevel)))
+        {
+            string d = DifficultyLevelExtension.ToString(difficultyLevel);
+            difficulties.Add(d);
+        }
     }
 }
