@@ -3,24 +3,8 @@
   "WorkspaceRootPath": "C:\\Perso\\GitHub\\brain_challenge\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{F8FB19C4-DDBF-CBFA-DA94-7A0D09DABF6B}|Assembly-CSharp.csproj|c:\\perso\\github\\brain_challenge\\assets\\scripts\\scenename.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F8FB19C4-DDBF-CBFA-DA94-7A0D09DABF6B}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\scenename.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F8FB19C4-DDBF-CBFA-DA94-7A0D09DABF6B}|Assembly-CSharp.csproj|c:\\perso\\github\\brain_challenge\\assets\\scripts\\mainmenuscript.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F8FB19C4-DDBF-CBFA-DA94-7A0D09DABF6B}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\mainmenuscript.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F8FB19C4-DDBF-CBFA-DA94-7A0D09DABF6B}|Assembly-CSharp.csproj|C:\\Perso\\GitHub\\brain_challenge\\assets\\textmesh pro\\shaders\\tmp_sdf-mobile.shader||{3B902123-F8A7-4915-9F01-361F908088D0}",
-      "RelativeMoniker": "D:0:0:{F8FB19C4-DDBF-CBFA-DA94-7A0D09DABF6B}|Assembly-CSharp.csproj|solutionrelative:assets\\textmesh pro\\shaders\\tmp_sdf-mobile.shader||{3B902123-F8A7-4915-9F01-361F908088D0}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{F8FB19C4-DDBF-CBFA-DA94-7A0D09DABF6B}|Assembly-CSharp.csproj|C:\\Perso\\GitHub\\brain_challenge\\assets\\scripts\\questionscript.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{F8FB19C4-DDBF-CBFA-DA94-7A0D09DABF6B}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\questionscript.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{F8FB19C4-DDBF-CBFA-DA94-7A0D09DABF6B}|Assembly-CSharp.csproj|C:\\Perso\\GitHub\\brain_challenge\\assets\\scripts\\questiondto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{F8FB19C4-DDBF-CBFA-DA94-7A0D09DABF6B}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\questiondto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -39,64 +23,15 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "SceneName.cs",
-              "DocumentMoniker": "C:\\Perso\\GitHub\\brain_challenge\\Assets\\Scripts\\SceneName.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\SceneName.cs",
-              "ToolTip": "C:\\Perso\\GitHub\\brain_challenge\\Assets\\Scripts\\SceneName.cs",
-              "RelativeToolTip": "Assets\\Scripts\\SceneName.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-30T21:33:14.67Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "MainMenuScript.cs",
-              "DocumentMoniker": "C:\\Perso\\GitHub\\brain_challenge\\Assets\\Scripts\\MainMenuScript.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\MainMenuScript.cs",
-              "ToolTip": "C:\\Perso\\GitHub\\brain_challenge\\Assets\\Scripts\\MainMenuScript.cs",
-              "RelativeToolTip": "Assets\\Scripts\\MainMenuScript.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-30T18:17:48.658Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "TMP_SDF-Mobile.shader",
-              "DocumentMoniker": "C:\\Perso\\GitHub\\brain_challenge\\Assets\\TextMesh Pro\\Shaders\\TMP_SDF-Mobile.shader",
-              "RelativeDocumentMoniker": "Assets\\TextMesh Pro\\Shaders\\TMP_SDF-Mobile.shader",
-              "ToolTip": "C:\\Perso\\GitHub\\brain_challenge\\Assets\\TextMesh Pro\\Shaders\\TMP_SDF-Mobile.shader",
-              "RelativeToolTip": "Assets\\TextMesh Pro\\Shaders\\TMP_SDF-Mobile.shader",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002777|",
-              "WhenOpened": "2024-05-29T22:18:29.345Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
               "Title": "QuestionScript.cs",
               "DocumentMoniker": "C:\\Perso\\GitHub\\brain_challenge\\Assets\\Scripts\\QuestionScript.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\QuestionScript.cs",
               "ToolTip": "C:\\Perso\\GitHub\\brain_challenge\\Assets\\Scripts\\QuestionScript.cs",
               "RelativeToolTip": "Assets\\Scripts\\QuestionScript.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAYAAAAAAAAA",
+              "ViewState": "AQIAAAYAAAAAAAAAAAAxwBYAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-29T20:55:40.697Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "QuestionDTO.cs",
-              "DocumentMoniker": "C:\\Perso\\GitHub\\brain_challenge\\Assets\\Scripts\\QuestionDTO.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\QuestionDTO.cs",
-              "ToolTip": "C:\\Perso\\GitHub\\brain_challenge\\Assets\\Scripts\\QuestionDTO.cs",
-              "RelativeToolTip": "Assets\\Scripts\\QuestionDTO.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA0AAAAiAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-05-29T20:52:48.849Z"
+              "WhenOpened": "2024-05-29T20:55:40.697Z",
+              "EditorCaption": ""
             }
           ]
         }
