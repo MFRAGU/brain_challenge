@@ -24,6 +24,7 @@ public class QuestionScript : MonoBehaviour
 
     public void ValidResponse(Button buttonClicked)
     {
+        DisableButtons(buttonClicked);
         string response = GetButtonText(buttonClicked);
         Image imageButton = buttonClicked.GetComponent<Image>();
         imageButton.color = BCColor.LightPurple;
@@ -60,6 +61,7 @@ public class QuestionScript : MonoBehaviour
             textNumberQuestion.text = _questionNumber.ToString() + ".";
             textQuestion.text = _currentQuestion.question;
             UpdateButtonText();
+            EnableButtons();
         }
         else
         {
@@ -144,5 +146,21 @@ public class QuestionScript : MonoBehaviour
     private string GetButtonText(Button b)
     {
         return b.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text;
+    }
+    
+    private void DisableButtons(Button buttonClicked)
+    {
+        foreach(Button b in Buttons)
+        {
+            b.enabled = false;
+        }
+    }
+
+    private void EnableButtons()
+    {
+        foreach (Button b in Buttons)
+        {
+            b.enabled = true;
+        }
     }
 }
