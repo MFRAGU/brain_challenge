@@ -643,6 +643,7 @@ GameObject:
   - component: {fileID: 310425107}
   - component: {fileID: 310425111}
   - component: {fileID: 310425110}
+  - component: {fileID: 310425112}
   m_Layer: 5
   m_Name: ButtonResponseA
   m_TagString: Untagged
@@ -714,7 +715,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 310425108}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1722674631}
+        m_TargetAssemblyTypeName: QuestionScript, Assembly-CSharp
+        m_MethodName: ValidResponse
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 310425107}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Button, UnityEngine.UI
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &310425108
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -794,6 +807,20 @@ MonoBehaviour:
   m_EffectColor: {r: 0.23137255, g: 0.23137255, b: 0.52156866, a: 1}
   m_EffectDistance: {x: 10, y: 1}
   m_UseGraphicAlpha: 1
+--- !u!114 &310425112
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 310425105}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 598fa8306c243014e9ca5c1147140547, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cursorOnEnter: {fileID: 2800000, guid: 79aa262ae390e6c4b8c43f3dd3727eb1, type: 3}
+  cursorOnExit: {fileID: 2800000, guid: c3bcc506da7d18f4b91d473165247242, type: 3}
 --- !u!1 &577030650
 GameObject:
   m_ObjectHideFlags: 0
@@ -808,6 +835,7 @@ GameObject:
   - component: {fileID: 577030654}
   - component: {fileID: 577030653}
   - component: {fileID: 577030652}
+  - component: {fileID: 577030657}
   m_Layer: 5
   m_Name: ButtonResponseB
   m_TagString: Untagged
@@ -920,7 +948,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 577030655}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1722674631}
+        m_TargetAssemblyTypeName: QuestionScript, Assembly-CSharp
+        m_MethodName: ValidResponse
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 577030654}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Button, UnityEngine.UI
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &577030655
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -959,6 +999,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 577030650}
   m_CullTransparentMesh: 1
+--- !u!114 &577030657
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 577030650}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 598fa8306c243014e9ca5c1147140547, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cursorOnEnter: {fileID: 2800000, guid: 79aa262ae390e6c4b8c43f3dd3727eb1, type: 3}
+  cursorOnExit: {fileID: 2800000, guid: c3bcc506da7d18f4b91d473165247242, type: 3}
 --- !u!1 &617824176
 GameObject:
   m_ObjectHideFlags: 0
@@ -1443,6 +1497,7 @@ GameObject:
   - component: {fileID: 1094342203}
   - component: {fileID: 1094342202}
   - component: {fileID: 1094342201}
+  - component: {fileID: 1094342206}
   m_Layer: 5
   m_Name: ButtonResponseC
   m_TagString: Untagged
@@ -1555,7 +1610,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1094342204}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1722674631}
+        m_TargetAssemblyTypeName: QuestionScript, Assembly-CSharp
+        m_MethodName: ValidResponse
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 1094342203}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Button, UnityEngine.UI
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1094342204
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1594,6 +1661,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1094342199}
   m_CullTransparentMesh: 1
+--- !u!114 &1094342206
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1094342199}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 598fa8306c243014e9ca5c1147140547, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cursorOnEnter: {fileID: 2800000, guid: 79aa262ae390e6c4b8c43f3dd3727eb1, type: 3}
+  cursorOnExit: {fileID: 2800000, guid: c3bcc506da7d18f4b91d473165247242, type: 3}
 --- !u!1 &1235814479
 GameObject:
   m_ObjectHideFlags: 0
@@ -1608,6 +1689,7 @@ GameObject:
   - component: {fileID: 1235814483}
   - component: {fileID: 1235814482}
   - component: {fileID: 1235814481}
+  - component: {fileID: 1235814486}
   m_Layer: 5
   m_Name: ButtonResponseD
   m_TagString: Untagged
@@ -1720,7 +1802,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1235814484}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1722674631}
+        m_TargetAssemblyTypeName: QuestionScript, Assembly-CSharp
+        m_MethodName: ValidResponse
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 1235814483}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.UI.Button, UnityEngine.UI
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1235814484
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1759,6 +1853,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1235814479}
   m_CullTransparentMesh: 1
+--- !u!114 &1235814486
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1235814479}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 598fa8306c243014e9ca5c1147140547, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cursorOnEnter: {fileID: 2800000, guid: 79aa262ae390e6c4b8c43f3dd3727eb1, type: 3}
+  cursorOnExit: {fileID: 2800000, guid: c3bcc506da7d18f4b91d473165247242, type: 3}
 --- !u!1 &1277546691
 GameObject:
   m_ObjectHideFlags: 0
@@ -2114,6 +2222,8 @@ GameObject:
   - component: {fileID: 1722674629}
   - component: {fileID: 1722674628}
   - component: {fileID: 1722674627}
+  - component: {fileID: 1722674631}
+  - component: {fileID: 1722674632}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -2206,6 +2316,40 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &1722674631
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1722674626}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ce656563f765cb409b6d522b5ca93b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  resultsScriptableObject: {fileID: 11400000, guid: 64a623b1c86ea73498c259cc24c140b5, type: 2}
+  textNumberQuestion: {fileID: 36008552}
+  textQuestion: {fileID: 19121004}
+  Buttons:
+  - {fileID: 310425107}
+  - {fileID: 577030654}
+  - {fileID: 1094342203}
+  - {fileID: 1235814483}
+--- !u!114 &1722674632
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1722674626}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 598fa8306c243014e9ca5c1147140547, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cursorOnEnter: {fileID: 2800000, guid: c3bcc506da7d18f4b91d473165247242, type: 3}
+  cursorOnExit: {fileID: 2800000, guid: c3bcc506da7d18f4b91d473165247242, type: 3}
 --- !u!1 &1794463542
 GameObject:
   m_ObjectHideFlags: 0
