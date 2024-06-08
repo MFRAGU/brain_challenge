@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
+using UnityEngine.SceneManagement;
 
 public class QuestionScript : MonoBehaviour
 {
@@ -14,6 +15,7 @@ public class QuestionScript : MonoBehaviour
     private List<Question> _questionList;
     private Question _currentQuestion;
     private int _questionNumber = 1;
+    public ScoreManager scoreManager;
 
     void Start()
     {
@@ -21,6 +23,7 @@ public class QuestionScript : MonoBehaviour
         InitQuestions();
         InitUI();
     }
+   
 
     public void ValidResponse(Button buttonClicked)
     {
@@ -41,11 +44,13 @@ public class QuestionScript : MonoBehaviour
         {
             imageButton.color = BCColor.DarkGreen;
             outlineButton.effectColor = BCColor.DarkGreen;
+           
         }
         else
         {
             imageButton.color = BCColor.DarkRed;
             outlineButton.effectColor = BCColor.DarkRed;
+           
         }
         yield return new WaitForSeconds(1.2f);
         ResetButtonColor(buttonClicked);
@@ -74,10 +79,12 @@ public class QuestionScript : MonoBehaviour
         if (response == _questionList[_questionNumber - 1].correctAnswer)
         {
             return true;
+            scoreManager.UpdateScore(true);
         }
         else
         {
             return false;
+            scoreManager.UpdateScore(false);
         }
     }
 
