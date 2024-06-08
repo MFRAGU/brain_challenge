@@ -29,3 +29,4 @@
 profile.metrics
 *.pidb.meta
 *.map
+*.vsidx
