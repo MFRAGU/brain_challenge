@@ -24,7 +24,7 @@ public class QuestionScript : MonoBehaviour
 
     public void ValidResponse(Button buttonClicked)
     {
-        DisableButtons(buttonClicked);
+        DisableButtons();
         string response = GetButtonText(buttonClicked);
         Image imageButton = buttonClicked.GetComponent<Image>();
         imageButton.color = BCColor.LightPurple;
@@ -148,7 +148,7 @@ public class QuestionScript : MonoBehaviour
         return b.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text;
     }
     
-    private void DisableButtons(Button buttonClicked)
+    private void DisableButtons()
     {
         foreach(Button b in Buttons)
         {
