@@ -1,54 +1,54 @@
 using System.Collections;
 using System.Collections.Generic;
-using System;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
-using Random = System.Random;
 using System.Linq;
 
 public class QuestionScript : MonoBehaviour
 {
-    private List<Question> _questionList;
-    [SerializeField] private ResultsScriptableObject resultsScriptableObject;
     public TextMeshProUGUI textNumberQuestion;
     public TextMeshProUGUI textQuestion;
     public Button[] Buttons = new Button[4];
+    [SerializeField] private ResultScriptableObject resultScriptableObject;
+    private List<Question> _questionList;
     private Question _currentQuestion;
     private int _questionNumber = 1;
 
-    private static readonly float r = 17f / 255f;
-    private static readonly float g = 18f / 255f;
-    private static readonly float b = 46f / 255f;
-    private readonly Color defaultColor = new(r, g, b);
-    private readonly Color errorColor = new(0.545f, 0f, 0f);
-    private readonly Color correctColor = new(0f, 0.392f, 0f);
-
     void Start()
     {
-        resultsScriptableObject.ClearResults();
+        resultScriptableObject.ClearResults();
         InitQuestions();
         InitUI();
     }
 
-    public void ValidResponse(Button b)
+    public void ValidResponse(Button buttonClicked)
     {
-        string response = b.transform.GetChild(1).GetComponent<Text>().text;
-        Debug.Log("response : " + response);
-        Image imageButton = b.GetComponent<Image>();
-        resultsScriptableObject.AddResult(_currentQuestion, response);
-        if (VerifyResponse(response))
+        string response = GetButtonText(buttonClicked);
+        Image imageButton = buttonClicked.GetComponent<Image>();
+        imageButton.color = BCColor.LightPurple;
+        resultScriptableObject.AddResult(_currentQuestion, response);
+        StartCoroutine(UpdateUI(buttonClicked, response));
+    }
+
+    private IEnumerator UpdateUI(Button buttonClicked, string response)
+    {
+        Image imageButton = buttonClicked.GetComponent<Image>();
+        Outline outlineButton = buttonClicked.GetComponent<Outline>();
+        yield return new WaitForSeconds(1.2f);
+        if (ResponseIsCorrect(response))
         {
-            imageButton.color = errorColor;
+            imageButton.color = BCColor.DarkGreen;
+            outlineButton.effectColor = BCColor.DarkGreen;
         }
         else
         {
-            imageButton.color = correctColor;
+            imageButton.color = BCColor.DarkRed;
+            outlineButton.effectColor = BCColor.DarkRed;
         }
-        Invoke("ResetButtonColor", 1.5f);
-        Invoke("UpdateQuestion", 2f);
-        Invoke("UpdateButtonText", 2f);
+        yield return new WaitForSeconds(1.2f);
+        ResetButtonColor(buttonClicked);
+        UpdateQuestion();
     }
 
     private void UpdateQuestion()
@@ -57,15 +57,17 @@ public class QuestionScript : MonoBehaviour
         if (_questionNumber <= _questionList.Count)
         {
             _currentQuestion = _questionList[_questionNumber - 1];
-            textNumberQuestion.text = _questionNumber.ToString();
+            textNumberQuestion.text = _questionNumber.ToString() + ".";
             textQuestion.text = _currentQuestion.question;
+            UpdateButtonText();
         }
         else
         {
             SceneLoader.LoadScene(SceneName.ResultScene);
         }
     }
-    private bool VerifyResponse(string response)
+
+    private bool ResponseIsCorrect(string response)
     {
         if (response == _questionList[_questionNumber - 1].correctAnswer)
         {
@@ -119,7 +121,8 @@ public class QuestionScript : MonoBehaviour
 
     private void ResetButtonColor(Button button)
     {
-        button.GetComponent<Image>().color = defaultColor;
+        button.GetComponent<Image>().color = BCColor.DarkPurple;
+        button.GetComponent<Outline>().effectColor = BCColor.LightPurple;
     }
 
     private void UpdateButtonText()
@@ -128,8 +131,18 @@ public class QuestionScript : MonoBehaviour
         List<string> propositions = s.ToList();
         propositions.Add(_currentQuestion.correctAnswer);
         Utils.Shuffle(propositions);
-        for(int i = 0; i < s.Length; i++) {
-            Buttons[i].transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = propositions[i];
+        for(int i = 0; i < propositions.Count; i++) {
+            SetButtonText(Buttons[i], propositions[i]);
         }
+    }
+
+    private void SetButtonText(Button b,  string text)
+    {
+        b.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = text;
+    }
+
+    private string GetButtonText(Button b)
+    {
+        return b.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text;
     }
 }
