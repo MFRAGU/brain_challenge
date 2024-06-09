@@ -78,13 +78,15 @@ public class QuestionScript : MonoBehaviour
     {
         if (response == _questionList[_questionNumber - 1].correctAnswer)
         {
-            return true;
+         
             scoreManager.UpdateScore(true);
+            return true;
         }
         else
         {
-            return false;
+           
             scoreManager.UpdateScore(false);
+            return false;
         }
     }
 

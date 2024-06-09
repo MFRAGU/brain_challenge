@@ -1,20 +1,25 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+using TMPro;
 
 public class ScoreManager : MonoBehaviour
 {
-    public Text scoreRightText; // Reference to UI text for correct answers
-    public Text scoreFalseText; // Reference to UI text for incorrect answers
+    public TextMeshProUGUI TexteRightText; 
+    public TextMeshProUGUI TexteFalseText; 
 
-    private int correctAnswers; // Stores the total number of correct answers
-    private int incorrectAnswers; // Stores the total number of incorrect answers
+    private int correctAnswers; 
+    private int incorrectAnswers;
 
     // Start is called before the first frame update
     void Start()
     {
+    
         // Consider resetting the score on game start here
-        // ResetScore();
+         ResetScore();
+        UpdateScore(TexteRightText);
+
     }
 
     public void UpdateScore(bool isCorrect)
@@ -22,26 +27,22 @@ public class ScoreManager : MonoBehaviour
         if (isCorrect)
         {
             correctAnswers++;
-            scoreRightText.text = correctAnswers.ToString(); // Update UI text
+            TexteRightText.text = correctAnswers.ToString()+ " Réponses Correctes"; 
         }
         else
         {
             incorrectAnswers++;
-            scoreFalseText.text = incorrectAnswers.ToString(); // Update UI text
+            TexteFalseText.text = incorrectAnswers.ToString()+ "Réponses Incorrectes"; 
         }
     }
 
-    public int GetTotalScore()
-    {
-        // You can return a percentage or adjust based on question count here
-        return correctAnswers;
-    }
+  
 
     public void ResetScore()
     {
         correctAnswers = 0;
         incorrectAnswers = 0;
-        scoreRightText.text = "0"; // Reset UI text
-        scoreFalseText.text = "0";
+        TexteRightText.text = "0"; 
+        TexteFalseText.text = "0";
     }
 }
