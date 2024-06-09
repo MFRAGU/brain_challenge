@@ -35,7 +35,7 @@ public class ScoreManager : MonoBehaviour
             TexteFalseText.text = incorrectAnswers.ToString()+ "Réponses Incorrectes"; 
         }
     }
-
+    
   
 
     public void ResetScore()

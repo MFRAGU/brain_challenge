@@ -79,13 +79,13 @@ public class QuestionScript : MonoBehaviour
         if (response == _questionList[_questionNumber - 1].correctAnswer)
         {
          
-            scoreManager.UpdateScore(true);
+           
             return true;
         }
         else
         {
            
-            scoreManager.UpdateScore(false);
+           
             return false;
         }
     }

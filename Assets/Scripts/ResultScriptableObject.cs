@@ -5,13 +5,14 @@ using UnityEngine;
 public class ResultScriptableObject : ScriptableObject
 {
     private readonly Dictionary<Question, string> _results = new();
-
+    //l'historique des reponses du joueur 
     public Dictionary<Question, string> GetResults()
     {
-        return _results;
+        return _results;//stocke tout qst et tout reponse jouer
     }
 
     public void AddResult(Question question, string response)
+        //reponse = reponse utilisateur
     {
         if (!_results.ContainsKey(question))
         {
