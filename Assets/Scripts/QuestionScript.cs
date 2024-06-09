@@ -3,12 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro; 
+using System.Linq;
+using System;
+
 
 public class QuestionScript : MonoBehaviour
 {
     
     public TMP_Text difficultyText;
     private DifficultyLevel currentDifficulty;
+    public GameObject settingsWindow;
     // Start is called before the first frame update
     void Start()
     {
@@ -30,5 +34,15 @@ public class QuestionScript : MonoBehaviour
     public void QuitGame()
     {
         SceneLoader.LoadScene(SceneName.MainMenuScene);
+    }
+
+     public void OpenSettings()
+    {
+        settingsWindow.SetActive(true);
+    }
+
+    public void CloseSettings()
+    {
+        settingsWindow.SetActive(false);
     }
 }

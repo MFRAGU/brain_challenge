@@ -2503,6 +2503,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   difficultyDropdown: {fileID: 1603465722}
   settingsWindow: {fileID: 2123579121}
+  difficultyLevel: 0
 --- !u!1 &1713196630
 GameObject:
   m_ObjectHideFlags: 0
