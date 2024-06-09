@@ -8,6 +8,7 @@ public class MainMenuScript : MonoBehaviour
 {
    public Dropdown difficultyDropdown;
    public GameObject settingsWindow;
+   public DifficultyLevel difficultyLevel;
    private readonly List<string> difficulties = new();
 
     public void Start()
@@ -15,7 +16,24 @@ public class MainMenuScript : MonoBehaviour
         initDifficulties();
         difficultyDropdown.ClearOptions();
         difficultyDropdown.AddOptions(difficulties);
-        
+
+       initDifficulties();
+        difficultyDropdown.ClearOptions();
+        difficultyDropdown.AddOptions(difficulties);
+
+        if (!PlayerPrefs.HasKey("difficulty"))
+        {
+            int randomIndex = difficulties.IndexOf(DifficultyLevelExtension.ToString(DifficultyLevel.Random));
+            difficultyDropdown.value = randomIndex;
+            PlayerPrefs.SetInt("difficulty", randomIndex);
+        }
+        else
+        {
+            difficultyDropdown.value = PlayerPrefs.GetInt("difficulty");
+        }
+
+         difficultyDropdown.onValueChanged.AddListener(OnDifficultyChanged);
+       
     }
 
     public void StartGame()
@@ -46,4 +64,11 @@ public class MainMenuScript : MonoBehaviour
             difficulties.Add(d);
         }
     }
+
+    private void OnDifficultyChanged(int index)
+   {
+       PlayerPrefs.SetInt("difficulty", index);
+   }
+
+   
 }
