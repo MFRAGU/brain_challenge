@@ -13,10 +13,6 @@ public class MainMenuScript : MonoBehaviour
 
     public void Start()
     {
-        initDifficulties();
-        difficultyDropdown.ClearOptions();
-        difficultyDropdown.AddOptions(difficulties);
-
        initDifficulties();
         difficultyDropdown.ClearOptions();
         difficultyDropdown.AddOptions(difficulties);
