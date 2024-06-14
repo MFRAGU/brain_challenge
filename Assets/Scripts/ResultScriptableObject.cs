@@ -12,7 +12,7 @@ public class ResultScriptableObject : ScriptableObject
     }
 
     public void AddResult(Question question, string response)
-        //reponse = reponse utilisateur
+    //reponse = reponse utilisateur
     {
         if (!_results.ContainsKey(question))
         {
@@ -25,9 +25,11 @@ public class ResultScriptableObject : ScriptableObject
         Debug.Log("Result value added, Question: " + question.question + "\nResponse: " + response);
     }
 
+
     public void ClearResults()
     {
         _results.Clear();
         Debug.Log("Result values is cleared");
     }
 }
+

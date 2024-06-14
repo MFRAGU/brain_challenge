@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
 using UnityEngine.SceneManagement;
+using System.Drawing;
 
 public class QuestionScript : MonoBehaviour
 {
@@ -29,17 +30,19 @@ public class QuestionScript : MonoBehaviour
     {
         DisableButtons();
         string response = GetButtonText(buttonClicked);
+     
         Image imageButton = buttonClicked.GetComponent<Image>();
         imageButton.color = BCColor.LightPurple;
         resultScriptableObject.AddResult(_currentQuestion, response);
         StartCoroutine(UpdateUI(buttonClicked, response));
     }
+   
 
     private IEnumerator UpdateUI(Button buttonClicked, string response)
     {
         Image imageButton = buttonClicked.GetComponent<Image>();
         Outline outlineButton = buttonClicked.GetComponent<Outline>();
-        yield return new WaitForSeconds(1.2f);
+        yield return new WaitForSeconds(1);
         if (ResponseIsCorrect(response))
         {
             imageButton.color = BCColor.DarkGreen;
@@ -50,10 +53,19 @@ public class QuestionScript : MonoBehaviour
         {
             imageButton.color = BCColor.DarkRed;
             outlineButton.effectColor = BCColor.DarkRed;
-           
+            yield return new WaitForSeconds(1);
+            foreach ( Button butonRight in Buttons) {
+                string answer = _currentQuestion.correctAnswer;
+                if ( answer == GetButtonText(butonRight)){
+                    butonRight.GetComponent<Image>().color = BCColor.DarkGreen;
+                    butonRight.GetComponent<Outline>().effectColor = BCColor.DarkGreen;
+                }
+               
+            }
+
         }
-        yield return new WaitForSeconds(1.2f);
-        ResetButtonColor(buttonClicked);
+        yield return new WaitForSeconds(1);
+        ResetButtonColor();
         UpdateQuestion();
     }
 
@@ -130,10 +142,12 @@ public class QuestionScript : MonoBehaviour
         UpdateButtonText();
     }
 
-    private void ResetButtonColor(Button button)
+    private void ResetButtonColor()
     {
-        button.GetComponent<Image>().color = BCColor.DarkPurple;
-        button.GetComponent<Outline>().effectColor = BCColor.LightPurple;
+        foreach (Button button in Buttons) {
+            button.GetComponent<Image>().color = BCColor.DarkPurple;
+            button.GetComponent<Outline>().effectColor = BCColor.LightPurple;
+        }
     }
 
     private void UpdateButtonText()
