@@ -42,12 +42,14 @@ public class ResultScript : MonoBehaviour
                     if (reponse == qst.correctAnswer)
                     {
                         trueAnswer++;
-                    resultHandlers.textScoreRight.text = trueAnswer.ToString() + ".";
+                    resultHandlers.textScoreRight.text = "Les réponses correctées : " +trueAnswer.ToString() + ".";
+                resultHandlers.textScoreRight.color = BCColor.DarkGreen;
                 }
                     else
                     {
                         falseAnswer++;
-                    resultHandlers.textScoreFalse.text= falseAnswer.ToString() + ".";
+                    resultHandlers.textScoreFalse.text= "Les mauvaise réponses : "+falseAnswer.ToString() + ".";
+                resultHandlers.textScoreFalse.color = BCColor.DarkRed;
                     }
             
         }
