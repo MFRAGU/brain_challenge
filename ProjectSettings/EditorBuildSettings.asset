@@ -11,4 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/QuestionScene.unity
     guid: da6bf3537512e864188ebcf3033e1ea2
+  - enabled: 1
+    path: Assets/Scenes/ResultScene.unity
+    guid: 73e3809ae8564bb40b3875ce50f09d8b
   m_configObjects: {}
