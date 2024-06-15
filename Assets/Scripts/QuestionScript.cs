@@ -4,10 +4,8 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
-using UnityEngine.UI;
-using TMPro; 
-using System.Linq;
-using System;
+using Unity.VisualScripting;
+using UnityEngine.EventSystems;
 
 
 public class QuestionScript : MonoBehaviour
@@ -16,16 +14,22 @@ public class QuestionScript : MonoBehaviour
     public TextMeshProUGUI textQuestion;
     public Button[] Buttons = new Button[4];
     [SerializeField] private ResultScriptableObject resultScriptableObject;
+    public TMP_Text difficultyText;
+    public GameObject settingsWindow;
     private List<Question> _questionList;
     private Question _currentQuestion;
     private int _questionNumber = 1;
-
-    
-    public TMP_Text difficultyText;
     private DifficultyLevel currentDifficulty;
-    public GameObject settingsWindow;
+
     void Start()
     {
+        if (PlayerPrefs.HasKey("difficulty"))
+        {
+            int difficultyIndex = PlayerPrefs.GetInt("difficulty");
+            currentDifficulty = (DifficultyLevel)difficultyIndex;
+        }
+        difficultyText.text = "Mode de jeu: " + DifficultyLevelExtension.ToString(currentDifficulty);
+
         resultScriptableObject.ClearResults();
         InitQuestions();
         InitUI();
@@ -39,13 +43,6 @@ public class QuestionScript : MonoBehaviour
         imageButton.color = BCColor.LightPurple;
         resultScriptableObject.AddResult(_currentQuestion, response);
         StartCoroutine(UpdateUI(buttonClicked, response));
-        
-       if (PlayerPrefs.HasKey("difficulty"))
-        {
-            int difficultyIndex = PlayerPrefs.GetInt("difficulty");
-            currentDifficulty = (DifficultyLevel)difficultyIndex;
-        }
-        difficultyText.text = "Mode de jeu: " + DifficultyLevelExtension.ToString(currentDifficulty);
     }
 
     private IEnumerator UpdateUI(Button buttonClicked, string response)

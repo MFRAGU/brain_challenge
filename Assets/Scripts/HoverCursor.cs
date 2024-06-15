@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -17,6 +15,11 @@ public class HoverCursor : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     }
 
     void IPointerExitHandler.OnPointerExit(PointerEventData eventData)
+    {
+        Cursor.SetCursor(cursorOnExit, hotSpot, cursorMode);
+    }
+
+    public void TriggerPointerExit()
     {
         Cursor.SetCursor(cursorOnExit, hotSpot, cursorMode);
     }
