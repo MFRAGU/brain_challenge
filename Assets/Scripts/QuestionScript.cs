@@ -4,6 +4,9 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
+using Unity.VisualScripting;
+using UnityEngine.EventSystems;
+
 
 public class QuestionScript : MonoBehaviour
 {
@@ -11,12 +14,22 @@ public class QuestionScript : MonoBehaviour
     public TextMeshProUGUI textQuestion;
     public Button[] Buttons = new Button[4];
     [SerializeField] private ResultScriptableObject resultScriptableObject;
+    public TMP_Text difficultyText;
+    public GameObject settingsWindow;
     private List<Question> _questionList;
     private Question _currentQuestion;
     private int _questionNumber = 1;
+    private DifficultyLevel currentDifficulty;
 
     void Start()
     {
+        if (PlayerPrefs.HasKey("difficulty"))
+        {
+            int difficultyIndex = PlayerPrefs.GetInt("difficulty");
+            currentDifficulty = (DifficultyLevel)difficultyIndex;
+        }
+        difficultyText.text = "Mode de jeu: " + DifficultyLevelExtension.ToString(currentDifficulty);
+
         resultScriptableObject.ClearResults();
         InitQuestions();
         InitUI();
@@ -162,5 +175,20 @@ public class QuestionScript : MonoBehaviour
         {
             b.enabled = true;
         }
+    }
+
+    public void QuitGame()
+    {
+        SceneLoader.LoadScene(SceneName.MainMenuScene);
+    }
+
+     public void OpenSettings()
+    {
+        settingsWindow.SetActive(true);
+    }
+
+    public void CloseSettings()
+    {
+        settingsWindow.SetActive(false);
     }
 }
