@@ -43,13 +43,13 @@ public class ResultScript : MonoBehaviour
                     {
                         trueAnswer++;
                     resultHandlers.textScoreRight.text = "Les réponses correctées : " +trueAnswer.ToString() + ".";
-                resultHandlers.textScoreRight.color = BCColor.DarkGreen;
+                    resultHandlers.textScoreRight.color = BCColor.DarkGreen;
                 }
                     else
                     {
                         falseAnswer++;
                     resultHandlers.textScoreFalse.text= "Les mauvaise réponses : "+falseAnswer.ToString() + ".";
-                resultHandlers.textScoreFalse.color = BCColor.DarkRed;
+                      resultHandlers.textScoreFalse.color = BCColor.DarkRed;
                     }
             
         }
