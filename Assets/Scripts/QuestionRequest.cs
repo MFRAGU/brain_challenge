@@ -4,16 +4,11 @@ using UnityEngine;
 
 public class QuestionRequest : Request
 {
-     public QuestionRequest() : base("RANDOM", "QUESTION"){}
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public QuestionRequest(
+    Type type,
+    QuestionRequestAction action,
+    string? data = null
+    ) : base(type, action.ToString()){}
 }
+
+/*convert type and action to string*/

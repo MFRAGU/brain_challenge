@@ -13,8 +13,8 @@ public class ClientSocket
     private StreamReader reader;
     private StreamWriter writer;
 
-    private readonly string serverIP; 
-    private readonly int port; 
+    private readonly string serverIP = "locahost"; 
+    private readonly int port = 1234; 
 
     public ClientSocket(string serverIP, int port)
     {
@@ -54,16 +54,15 @@ public class ClientSocket
         }
     }
 
-    public Result<T> SendMessage<T>(Request requete)
+    public string SendMessage(Request requete)
     {
          try
         {
             string jsonRequest = JsonUtility.ToJson(requete);
             writer.WriteLine(jsonRequest);
             string jsonResponse = reader.ReadLine();
-            Result<T> result = JsonUtility.FromJson<Result<T>>(jsonResponse);
 
-            return result;
+            return jsonResponse;
         }
         catch (Exception e)
         {
@@ -72,20 +71,5 @@ public class ClientSocket
         }
     }
 
-    public Result<T> RecupMessage<T>()
-    {
-        try
-        {
-            string jsonResponse = reader.ReadLine();
-            Result<T> result = JsonUtility.FromJson<Result<T>>(jsonResponse);
-
-            return result;
-        }
-        catch (Exception e)
-        {
-            Debug.LogError("RecupMessage failed: " + e.Message);
-            throw new Exception("RecupMessage failed: " + e.Message);
-        }
-        
-    }
+   
 }

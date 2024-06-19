@@ -18,10 +18,9 @@ public class QuestionSocketUseCase
     {
         try
         {
-            QuestionRequest request = new QuestionRequest();
-            Result<QuestionResult> result = clientSocket.SendMessage<QuestionResult>(request);
-
-            return result.getData;
+            QuestionRequest request = new QuestionRequest(Type.QUESTION, QuestionRequestAction.RANDOM);
+            string response = clientSocket.SendMessage(request);
+            return JsonUtility.FromJson<QuestionResult>(response);
         }
         catch (Exception e)
         {
@@ -30,15 +29,5 @@ public class QuestionSocketUseCase
         }
     }
 
-     // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+   
 }
