@@ -29,5 +29,20 @@ public class QuestionSocketUseCase
         }
     }
 
+    public QuestionResult SendDifficultyQuestionRequest(DifficultyLevel difficultyLevel)
+    {
+        try
+        {
+            QuestionRequest request = new QuestionRequest(Type.QUESTION, QuestionRequestAction.DIFFICULTY, difficultyLevel);
+            string response = clientSocket.SendMessage(request);
+            return JsonUtility.FromJson<QuestionResult>(response);
+        }
+        catch (Exception e)
+        {
+            Debug.LogError("SendDifficultyQuestionRequest failed: " + e.Message);
+            throw new Exception("SendDifficultyQuestionRequest failed: " + e.Message);
+        }
+    }
+
    
 }
