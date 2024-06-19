@@ -5,7 +5,7 @@ public class HoverCursor : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
 {
     public Texture2D cursorOnEnter;
     public Texture2D cursorOnExit;
-    private CursorMode cursorMode = CursorMode.Auto;
+    private readonly CursorMode cursorMode = CursorMode.Auto;
     private Vector2 hotSpot = Vector2.zero;
 
 
