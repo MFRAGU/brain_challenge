@@ -2,13 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Threading.Tasks;
 
 public class LoadingScript : MonoBehaviour, Callback<QuestionResult> 
 {   public Slider slider; 
     public float speed = 0.2f;
-
+    private DifficultyLevel currentDifficulty;
+    private QuestionSocketUseCase socketUseCase = new QuestionSocketUseCase();
     
-
     public QuestionScriptableObject questionScriptable;
 
      public void OnSuccess(QuestionResult questionResult){
@@ -20,8 +21,23 @@ public class LoadingScript : MonoBehaviour, Callback<QuestionResult>
         SceneLoader.LoadScene(SceneName.MainMenuScene);
     }
 
+    private async Task SendDifficultyQuestionResult(){
+         int difficultyIndex = PlayerPrefs.GetInt("difficulty");
+         currentDifficulty = (DifficultyLevel)difficultyIndex;
+         switch (currentDifficulty){
+            case DifficultyLevel.Random:
+                socketUseCase.SendRandomQuestionRequest();
+            break;
+            default: 
+                socketUseCase.SendDifficultyQuestionRequest(currentDifficulty);
+            break;
+        }
+    }
+
     void Start()
     {
+       SendDifficultyQuestionResult();
+       
         if (slider == null)
         {
             slider = GetComponent<Slider>();

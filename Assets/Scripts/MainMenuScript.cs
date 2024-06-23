@@ -34,7 +34,7 @@ public class MainMenuScript : MonoBehaviour
 
     public void StartGame()
     {
-        SceneLoader.LoadScene(SceneName.QuestionScene);
+        SceneLoader.LoadScene(SceneName.LoadingScene);
     }
 
     public void ExitGame()

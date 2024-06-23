@@ -12,15 +12,22 @@ public class ClientSocket
     private TcpClient client;
     private StreamReader reader;
     private StreamWriter writer;
+    private static ClientSocket _instance;
 
     private readonly string serverIP = "locahost"; 
     private readonly int port = 1234; 
 
-    public ClientSocket(string serverIP, int port)
-    {
-        this.serverIP = serverIP;
-        this.port = port;
-    }
+    private ClientSocket(){}
+
+    public static ClientSocket GetInstance()
+        {
+            if (_instance == null)
+            {
+                _instance = new ClientSocket();
+            }
+            return _instance;
+        }
+
 
      public void Connect()
     {
@@ -67,9 +74,11 @@ public class ClientSocket
         catch (Exception e)
         {
             Debug.LogError("SendMessage failed: " + e.Message);
-            throw new Exception("SendMessage failed: " + e.Message);
+            return "Error in sending request";
         }
     }
+
+   
 
    
 }

@@ -3,5 +3,6 @@ public enum SceneName
 {
     MainMenuScene,
     QuestionScene,
-    ResultScene
+    ResultScene,
+    LoadingScene
 }

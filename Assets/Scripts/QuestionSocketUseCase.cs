@@ -3,45 +3,28 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Net.Sockets;
 using System;
+using UnityEngine.UI;
 
-public class QuestionSocketUseCase 
+public class QuestionSocketUseCase
 {
-    private ClientSocket clientSocket;
+    private ClientSocket clientSocket = ClientSocket.GetInstance();
     private Callback <QuestionResult> callBack; 
 
-    public QuestionSocketUseCase(ClientSocket clientSocket)
+   public void SendRandomQuestionRequest()
     {
-        this.clientSocket = clientSocket;
+        Debug.Log("Envoi de message Random");
+        QuestionRequest request = new QuestionRequest(Type.QUESTION, QuestionRequestAction.RANDOM);
+        string response = clientSocket.SendMessage(request);
+        ParseResult(response);
+  
     }
 
-    public void SendRandomQuestionRequest()
+   public void SendDifficultyQuestionRequest(DifficultyLevel difficultyLevel)
     {
-        try
-        {
-            QuestionRequest request = new QuestionRequest(Type.QUESTION, QuestionRequestAction.RANDOM);
-            string response = clientSocket.SendMessage(request);
-            ParseResult(response);
-        }
-        catch (Exception e)
-        {
-            Debug.LogError("SendRandomQuestionRequest failed: " + e.Message);
-            throw new Exception("SendRandomQuestionRequest failed: " + e.Message);
-        }
-    }
-
-    public void SendDifficultyQuestionRequest(DifficultyLevel difficultyLevel)
-    {
-        try
-        {
-            QuestionRequest request = new QuestionRequest(Type.QUESTION, QuestionRequestAction.DIFFICULTY, difficultyLevel.ToString());
-            string response = clientSocket.SendMessage(request);
-            ParseResult(response);
-        }
-        catch (Exception e)
-        {
-            Debug.LogError("SendDifficultyQuestionRequest failed: " + e.Message);
-            throw new Exception("SendDifficultyQuestionRequest failed: " + e.Message);
-        }
+        Debug.Log("Envoi de message Difficulty");
+        QuestionRequest request = new QuestionRequest(Type.QUESTION, QuestionRequestAction.DIFFICULTY, difficultyLevel.ToString());
+        string response = clientSocket.SendMessage(request);
+        ParseResult(response);
     }
 
     private void ParseResult(string result){
@@ -49,11 +32,13 @@ public class QuestionSocketUseCase
             JsonUtility.FromJson<QuestionResult>(result);
             QuestionResult resultJson = JsonUtility.FromJson<QuestionResult>(result);
             callBack.OnSuccess(resultJson);
+            Debug.Log("Résultat reçu");
         }catch (Exception e)
         {
             callBack.OnError(e.Message);
+            Debug.LogError("SendRandomQuestionRequest failed: " + e.Message);
         }
         
     }
-   
+    
 }
