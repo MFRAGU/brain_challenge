@@ -9,7 +9,7 @@ public class ResultHandler
 {//readonly is not modified
     public  TextMeshProUGUI textScoreRight;
     public  TextMeshProUGUI textScoreFalse;
-   
+   public TextMeshProUGUI textCongratulation;
 
     
 }

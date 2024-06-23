@@ -14,49 +14,63 @@ public class ResultScript : MonoBehaviour
     public ResultHandler resultHandlers; //gonna stock all the texte of the ui
     public GameObject coloredObject;
     private Dictionary<Question, string> _result;
-  
+    public Button butonRestart;
+    public Button butonQuit;
+
     private int trueAnswer = 0;
     private int falseAnswer = 0;
 
     public void Start()
     {
-        coloredObject.GetComponent<Image>().color = BCColor.Yellow;
+       
         _result = scriptableObject.GetResults();
         DisplayResult();
+      
 
     }
 
     private void DisplayResult()
     {
         //count all the qst and answer
-      
+
         foreach (var r in _result)
         { //contains key (type qst)and value (strinng= answer)
-           
-                    Question qst;
 
-                    qst = r.Key;
+            Question qst;
 
-                    string reponse = r.Value;
-                 
-                    if (reponse == qst.correctAnswer)
-                    {
-                        trueAnswer++;
-                    resultHandlers.textScoreRight.text = "Les réponses correctées : " +trueAnswer.ToString() + ".";
-                    resultHandlers.textScoreRight.color = BCColor.DarkGreen;
-                }
-                    else
-                    {
-                        falseAnswer++;
-                    resultHandlers.textScoreFalse.text= "Les mauvaise réponses : "+falseAnswer.ToString() + ".";
-                      resultHandlers.textScoreFalse.color = BCColor.DarkRed;
-                    }
-            
+            qst = r.Key;
+
+            string reponse = r.Value;
+
+            if (reponse == qst.correctAnswer)
+            {
+                trueAnswer++;
+                resultHandlers.textScoreRight.text =   trueAnswer.ToString() + " réponses correctées ";
+                resultHandlers.textScoreRight.color = BCColor.DarkGreen;
+            }
+            else
+            {
+                falseAnswer++;
+                resultHandlers.textScoreFalse.text =  falseAnswer.ToString() + " mauvaises réponses";
+                resultHandlers.textScoreFalse.color = BCColor.DarkRed;
+            }
+            TextCongrat();
+
         }
     }
 
-    private void TextCongrat(string text)
+    private void TextCongrat()
     {
+        if (trueAnswer >= falseAnswer)
+        {
+            resultHandlers.textCongratulation.text = "Félicitation";
+        }
+        else
+        {
+            resultHandlers.textCongratulation.text = "C'est pas toi c'est les question...";
+
+        }
+
 
     }
     public void ResetScore()
@@ -66,4 +80,24 @@ public class ResultScript : MonoBehaviour
         resultHandlers.textScoreRight.text = "0";
         resultHandlers.textScoreFalse.text = "0";
     }
+    public void ExitGame()
+    {
+       
+        Debug.Log("button sorti appuye");
+        print("button sorti appuye");
+        Application.Quit();
+    }
+
+    public void Restart()
+    {
+        _result.Clear();
+        ResetScore();
+     
+        
+        Debug.Log("Button restart appuye");
+        print("button sorti appuye");
+        SceneLoader.LoadScene(SceneName.MainMenuScene);
+    }
 }
+
+

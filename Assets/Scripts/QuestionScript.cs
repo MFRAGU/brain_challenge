@@ -16,7 +16,7 @@ public class QuestionScript : MonoBehaviour
     private List<Question> _questionList;
     private Question _currentQuestion;
     private int _questionNumber = 1;
-    public ScoreManager scoreManager;
+   
 
     void Start()
     {
@@ -184,6 +184,7 @@ public class QuestionScript : MonoBehaviour
         foreach (Button b in Buttons)
         {
             b.enabled = true;
+          
         }
     }
 }
