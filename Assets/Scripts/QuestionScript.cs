@@ -20,6 +20,7 @@ public class QuestionScript : MonoBehaviour
     private Question _currentQuestion;
     private int _questionNumber = 1;
     private DifficultyLevel currentDifficulty;
+    public QuestionScriptableObject RecupQuestionScriptable;
 
     void Start()
     {
@@ -96,35 +97,9 @@ public class QuestionScript : MonoBehaviour
 
     private void InitQuestions()
     {
-        _questionList = new List<Question>
-        {
-            new(
-                "St Pétersbourg",
-                new string[] { "Paris", "Athènes", "Rome" },
-                "Quelle de ces villes se trouve en Russie ?"
-            ),
-            new(
-                "Bicarbonate de soude",
-                new string[] { "Eau de Javel", "Sel de table", "Dolomite" },
-                "Quel est le nom courant du bicarbonate de sodium ?"
-            ),
-            new(
-                "Dane Geld",
-                new string[] { "Obligation de guerre", "Sax Bandeg", "Levy de guerre" },
-                "Quelle taxe du 9ème siècle était prélevée pour lutter contre les Vikings ?"
-            ),
-            new(
-              "Harry Potter",
-              new string[] { "Le Seigneur des Anneaux", "Une Chanson de Glace et de Feu", "Twilight" },
-              "Dans quelle série de livres apparaît 'Albus Dumbledore' ?"
-            ),
-            new(
-              "La vie",
-              new string[] { "Carillonnage", "Maladies rhumatismales", "Syphilis" },
-              "De quoi la biologie est-elle l'étude ?"
-            )
-        };
+         _questionList = RecupQuestionScriptable.questions;
     }
+
 
     private void InitUI()
     {

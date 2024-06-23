@@ -11,4 +11,3 @@ public class QuestionRequest : Request
     ) : base(type, action.ToString()){}
 }
 
-/*convert type and action to string*/
