@@ -15,7 +15,7 @@ public class DifficultyLevelExtension
         switch (difficultyLevel)
         {
             case DifficultyLevel.Random:
-                return "Aléatoire";
+                return "Aleatoire";
             case DifficultyLevel.Easy:
                 return "Facile";
             case DifficultyLevel.Medium:
@@ -23,7 +23,7 @@ public class DifficultyLevelExtension
             case DifficultyLevel.Hard:
                 return "Difficile";
             default:
-                return "Non définis";
+                return "Non definis";
         }
     }
 }
