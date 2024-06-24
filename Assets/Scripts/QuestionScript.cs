@@ -4,18 +4,19 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
-using Unity.VisualScripting;
-using UnityEngine.EventSystems;
+using UnityEngine.Rendering;
 
 
 public class QuestionScript : MonoBehaviour
 {
     public TextMeshProUGUI textNumberQuestion;
     public TextMeshProUGUI textQuestion;
+    public TextMeshProUGUI textTimer;
+    public TMP_Text difficultyText;
     public Button[] Buttons = new Button[4];
     [SerializeField] private ResultScriptableObject resultScriptableObject;
-    public TMP_Text difficultyText;
     public GameObject settingsWindow;
+    public Timer timer = new(20);
     private List<Question> _questionList;
     private Question _currentQuestion;
     private int _questionNumber = 1;
@@ -27,13 +28,23 @@ public class QuestionScript : MonoBehaviour
         if (PlayerPrefs.HasKey("difficulty"))
         {
             int difficultyIndex = PlayerPrefs.GetInt("difficulty");
-            currentDifficulty = (DifficultyLevel)difficultyIndex;
+            currentDifficulty = (DifficultyLevel) difficultyIndex;
         }
         difficultyText.text = "Mode de jeu: " + DifficultyLevelExtension.ToString(currentDifficulty);
 
         resultScriptableObject.ClearResults();
         InitQuestions();
         InitUI();
+        timer.SetActive();
+        InvokeRepeating("UpdateTimer", 1.0f, 1.0f);
+    } 
+
+    private void Update()
+    {
+        if(timer.currentTime == 0)
+        {
+            UpdateQuestion();
+        }
     }
 
     public void ValidResponse(Button buttonClicked)
@@ -68,6 +79,7 @@ public class QuestionScript : MonoBehaviour
 
     private void UpdateQuestion()
     {
+        ResetTimer();
         _questionNumber++;
         if (_questionNumber <= _questionList.Count)
         {
@@ -106,6 +118,7 @@ public class QuestionScript : MonoBehaviour
         _currentQuestion = _questionList[_questionNumber - 1];
         textQuestion.text = _currentQuestion.question;
         textNumberQuestion.text = _questionNumber.ToString();
+        textTimer.text = timer.currentTime.ToString();
         UpdateButtonText();
     }
 
@@ -165,5 +178,17 @@ public class QuestionScript : MonoBehaviour
     public void CloseSettings()
     {
         settingsWindow.SetActive(false);
+    }
+
+    private void UpdateTimer()
+    {
+        timer.Decrement();
+        textTimer.text = timer.currentTime.ToString();
+    }
+
+    private void ResetTimer()
+    {
+        timer.Reset();
+        textTimer.text = timer.currentTime.ToString();
     }
 }
