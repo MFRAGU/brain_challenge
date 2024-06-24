@@ -4,6 +4,8 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
+using UnityEngine.Rendering;
+
 
 using UnityEngine.SceneManagement;
 using System.Drawing;
@@ -25,6 +27,7 @@ public class QuestionScript : MonoBehaviour
     private List<Question> _questionList;
     private Question _currentQuestion;
     private int _questionNumber = 1;
+    private DifficultyLevel currentDifficulty;
 
    
 
