@@ -36,9 +36,7 @@ public class QuestionSocketUseCase
         }catch (Exception e)
         {
             callBack.OnError(e.Message);
-            Debug.LogError("SendRandomQuestionRequest failed: " + e.Message);
+            Debug.LogError(e);
         }
-        
     }
-    
 }

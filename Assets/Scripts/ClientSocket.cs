@@ -41,8 +41,7 @@ public class ClientSocket
         }
         catch (Exception e)
         {
-            Debug.LogError("Connection failed: " + e.Message);
-            throw new Exception("Connection failed: " + e.Message);
+            Debug.LogError(e);
         }
     }
 
@@ -57,25 +56,25 @@ public class ClientSocket
         }
         catch (Exception e)
         {
-            Debug.LogError("Disconnection failed: " + e.Message);
+            Debug.LogError(e);
         }
     }
 
     public string SendMessage(Request requete)
     {
-         try
-        {
+        // try
+        //{
             string jsonRequest = JsonUtility.ToJson(requete);
             writer.WriteLine(jsonRequest);
             string jsonResponse = reader.ReadLine();
 
             return jsonResponse;
-        }
-        catch (Exception e)
-        {
-            Debug.LogError("SendMessage failed: " + e.Message);
-            return "Error in sending request";
-        }
+       // }
+       // catch (Exception e)
+       // {
+            //Debug.LogError(e);
+           // return "Error in sending request";
+       // }
     }
 
    

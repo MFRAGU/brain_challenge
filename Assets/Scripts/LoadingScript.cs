@@ -9,7 +9,7 @@ public class LoadingScript : MonoBehaviour, Callback<QuestionResult>
     public float speed = 0.2f;
     private DifficultyLevel currentDifficulty;
     private QuestionSocketUseCase socketUseCase = new QuestionSocketUseCase();
-    
+    public GameObject errorPanel;
     public QuestionScriptableObject questionScriptable;
 
      public void OnSuccess(QuestionResult questionResult){
@@ -18,7 +18,14 @@ public class LoadingScript : MonoBehaviour, Callback<QuestionResult>
     }
 
     public void OnError(string message){
-        SceneLoader.LoadScene(SceneName.MainMenuScene);
+        errorPanel.SetActive(true);
+        
+         Invoke("RedirectToMainMenu", 4f);
+    }
+
+    private void RedirectToMainMenu()
+    {
+        SceneLoader.LoadScene(SceneName.MainMenuScene); 
     }
 
     private async Task SendDifficultyQuestionResult(){
@@ -37,7 +44,7 @@ public class LoadingScript : MonoBehaviour, Callback<QuestionResult>
     void Start()
     {
        SendDifficultyQuestionResult();
-       
+
         if (slider == null)
         {
             slider = GetComponent<Slider>();
