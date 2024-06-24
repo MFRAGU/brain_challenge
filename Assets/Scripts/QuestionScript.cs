@@ -31,7 +31,7 @@ public class QuestionScript : MonoBehaviour
 
    
 
-    private DifficultyLevel currentDifficulty;
+ 
 
 
     void Start()
@@ -142,7 +142,7 @@ public class QuestionScript : MonoBehaviour
         {
             new(
                 "St P�tersbourg",
-                new string[] { "Paris", "Ath�nes", "Rome" },
+                new string[] { "Paris", "Athènes", "Rome" },
                 "Quelle de ces villes se trouve en Russie ?"
             ),
             new(
@@ -158,7 +158,7 @@ public class QuestionScript : MonoBehaviour
             new(
               "Harry Potter",
               new string[] { "Le Seigneur des Anneaux", "Une Chanson de Glace et de Feu", "Twilight" },
-              "Dans quelle s�rie de livres appara�t 'Albus Dumbledore' ?"
+              "Dans quelle s�rie de livres apparait 'Albus Dumbledore' ?"
             ),
             new(
               "La vie",
