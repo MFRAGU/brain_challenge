@@ -8,10 +8,15 @@ using System.Runtime.CompilerServices;
 
 
 public class ResultScript : MonoBehaviour
+
 {
+    public TextMeshProUGUI textScoreRight;
+    public TextMeshProUGUI textScoreFalse;
+    public TextMeshProUGUI textCongratulation;
+
     public ResultScriptableObject scriptableObject;
     [SerializeField]//let to touch objects in order to show them in the editot
-    public ResultHandler resultHandlers; //gonna stock all the texte of the ui
+    public List<ResultHandler> resultHandlers; //gonna stock all the texte of the ui
     public GameObject coloredObject;
     private Dictionary<Question, string> _result;
     public Button butonRestart;
@@ -41,18 +46,28 @@ public class ResultScript : MonoBehaviour
             qst = r.Key;
 
             string reponse = r.Value;
+            int i = 0;
+            ResultHandler handler = resultHandlers[i];
+            if (handler != null)
+            {
 
-            if (reponse == qst.correctAnswer)
-            {
-                trueAnswer++;
-                resultHandlers.textScoreRight.text =   trueAnswer.ToString() + " réponses correctées ";
-                resultHandlers.textScoreRight.color = BCColor.DarkGreen;
-            }
-            else
-            {
-                falseAnswer++;
-                resultHandlers.textScoreFalse.text =  falseAnswer.ToString() + " mauvaises réponses";
-                resultHandlers.textScoreFalse.color = BCColor.DarkRed;
+                if (reponse == qst.correctAnswer)
+                {
+                    trueAnswer++;
+                    textScoreRight.text = trueAnswer.ToString() + " réponses correctées ";
+                    textScoreRight.color = BCColor.DarkGreen;
+
+                    handler.correct_answer.text = qst.question;
+                    handler.correct_answer.text = "Réponse entrée: " + qst.correctAnswer;
+                }
+                else
+                {
+                    falseAnswer++;
+                    textScoreFalse.text = falseAnswer.ToString() + " mauvaises réponses";
+                    textScoreFalse.color = BCColor.DarkRed;
+                    handler.correct_answer.text = "Réponse entrée: " + reponse;
+                    handler.correct_answer.text = "Réponse attendu: " + qst.correctAnswer;
+                }
             }
             TextCongrat();
 
@@ -63,11 +78,11 @@ public class ResultScript : MonoBehaviour
     {
         if (trueAnswer >= falseAnswer)
         {
-            resultHandlers.textCongratulation.text = "Félicitation";
+            textCongratulation.text = "Félicitation";
         }
         else
         {
-            resultHandlers.textCongratulation.text = "C'est pas toi c'est les question...";
+            textCongratulation.text = "C'est pas toi c'est les question...";
 
         }
 
@@ -77,18 +92,24 @@ public class ResultScript : MonoBehaviour
     {
         trueAnswer = 0;
         falseAnswer = 0;
-        resultHandlers.textScoreRight.text = "0";
-        resultHandlers.textScoreFalse.text = "0";
+        textScoreRight.text = "0";
+        textScoreFalse.text = "0";
     }
     public void ExitGame()
     {
+        //renvoye vers menu
        
         Debug.Log("button sorti appuye");
         print("button sorti appuye");
-        Application.Quit();
+
+        _result.Clear();
+        ResetScore();
+        SceneLoader.LoadScene(SceneName.MainMenuScene);
+
     }
 
     public void Restart()
+        //renvoye vers la page des questions
     {
         _result.Clear();
         ResetScore();
@@ -96,7 +117,7 @@ public class ResultScript : MonoBehaviour
         
         Debug.Log("Button restart appuye");
         print("button sorti appuye");
-        SceneLoader.LoadScene(SceneName.MainMenuScene);
+        SceneLoader.LoadScene(SceneName.QuestionScene);
     }
 }
 

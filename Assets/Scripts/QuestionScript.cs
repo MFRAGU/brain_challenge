@@ -4,25 +4,55 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
+
 using UnityEngine.SceneManagement;
 using System.Drawing;
+
+using UnityEngine.Rendering;
+
+
 
 public class QuestionScript : MonoBehaviour
 {
     public TextMeshProUGUI textNumberQuestion;
     public TextMeshProUGUI textQuestion;
+    public TextMeshProUGUI textTimer;
+    public TMP_Text difficultyText;
     public Button[] Buttons = new Button[4];
     [SerializeField] private ResultScriptableObject resultScriptableObject;
+    public GameObject settingsWindow;
+    public Timer timer = new(20);
     private List<Question> _questionList;
     private Question _currentQuestion;
     private int _questionNumber = 1;
+
    
+
+    private DifficultyLevel currentDifficulty;
+
 
     void Start()
     {
+        if (PlayerPrefs.HasKey("difficulty"))
+        {
+            int difficultyIndex = PlayerPrefs.GetInt("difficulty");
+            currentDifficulty = (DifficultyLevel) difficultyIndex;
+        }
+        difficultyText.text = "Mode de jeu: " + DifficultyLevelExtension.ToString(currentDifficulty);
+
         resultScriptableObject.ClearResults();
         InitQuestions();
         InitUI();
+        timer.SetActive();
+        InvokeRepeating("UpdateTimer", 1.0f, 1.0f);
+    } 
+
+    private void Update()
+    {
+        if(timer.currentTime == 0)
+        {
+            UpdateQuestion();
+        }
     }
    
 
@@ -71,6 +101,7 @@ public class QuestionScript : MonoBehaviour
 
     private void UpdateQuestion()
     {
+        ResetTimer();
         _questionNumber++;
         if (_questionNumber <= _questionList.Count)
         {
@@ -107,8 +138,8 @@ public class QuestionScript : MonoBehaviour
         _questionList = new List<Question>
         {
             new(
-                "St Pétersbourg",
-                new string[] { "Paris", "Athènes", "Rome" },
+                "St Pï¿½tersbourg",
+                new string[] { "Paris", "Athï¿½nes", "Rome" },
                 "Quelle de ces villes se trouve en Russie ?"
             ),
             new(
@@ -119,17 +150,17 @@ public class QuestionScript : MonoBehaviour
             new(
                 "Dane Geld",
                 new string[] { "Obligation de guerre", "Sax Bandeg", "Levy de guerre" },
-                "Quelle taxe du 9ème siècle était prélevée pour lutter contre les Vikings ?"
+                "Quelle taxe du 9ï¿½me siï¿½cle ï¿½tait prï¿½levï¿½e pour lutter contre les Vikings ?"
             ),
             new(
               "Harry Potter",
               new string[] { "Le Seigneur des Anneaux", "Une Chanson de Glace et de Feu", "Twilight" },
-              "Dans quelle série de livres apparaît 'Albus Dumbledore' ?"
+              "Dans quelle sï¿½rie de livres apparaï¿½t 'Albus Dumbledore' ?"
             ),
             new(
               "La vie",
               new string[] { "Carillonnage", "Maladies rhumatismales", "Syphilis" },
-              "De quoi la biologie est-elle l'étude ?"
+              "De quoi la biologie est-elle l'ï¿½tude ?"
             )
         };
     }
@@ -139,6 +170,7 @@ public class QuestionScript : MonoBehaviour
         _currentQuestion = _questionList[_questionNumber - 1];
         textQuestion.text = _currentQuestion.question;
         textNumberQuestion.text = _questionNumber.ToString();
+        textTimer.text = timer.currentTime.ToString();
         UpdateButtonText();
     }
 
@@ -186,5 +218,32 @@ public class QuestionScript : MonoBehaviour
             b.enabled = true;
           
         }
+    }
+
+    public void QuitGame()
+    {
+        SceneLoader.LoadScene(SceneName.MainMenuScene);
+    }
+
+     public void OpenSettings()
+    {
+        settingsWindow.SetActive(true);
+    }
+
+    public void CloseSettings()
+    {
+        settingsWindow.SetActive(false);
+    }
+
+    private void UpdateTimer()
+    {
+        timer.Decrement();
+        textTimer.text = timer.currentTime.ToString();
+    }
+
+    private void ResetTimer()
+    {
+        timer.Reset();
+        textTimer.text = timer.currentTime.ToString();
     }
 }

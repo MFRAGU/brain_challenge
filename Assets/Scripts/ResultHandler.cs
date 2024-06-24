@@ -7,9 +7,10 @@ using TMPro;
 public class ResultHandler 
 
 {//readonly is not modified
-    public  TextMeshProUGUI textScoreRight;
-    public  TextMeshProUGUI textScoreFalse;
-   public TextMeshProUGUI textCongratulation;
+  
+    public TextMeshProUGUI question;
+    public TextMeshProUGUI answer_user;
+    public TextMeshProUGUI? correct_answer;
 
-    
+
 }
