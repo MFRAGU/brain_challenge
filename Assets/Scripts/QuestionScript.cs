@@ -6,8 +6,7 @@ using UnityEngine.UI;
 using System.Linq;
 using UnityEngine.Rendering;
 using OpenAI;
-using UnityEditor.VersionControl;
-//using UnityEngine.UIElements;
+
 
 
 
@@ -19,31 +18,42 @@ public class QuestionScript : MonoBehaviour
     public TMP_Text textChaptGPT;
     public TMP_Text difficultyText;
     public Button[] Buttons = new Button[4];
-    [SerializeField] private ResultScriptableObject resultScriptableObject;
     public GameObject settingsWindow;
-    private List<Question> _questionList;
+    [SerializeField] private ResultScriptableObject resultScriptableObject;
+[SerializeField] private QuestionScriptableObject questionScriptableObject;
+  private List<Question> _questionList;
     private Question _currentQuestion;
     private Button btn;
+    public GameObject panelGPT;
     private int _questionNumber = 1;
     private DifficultyLevel currentDifficulty;
     private string prompt = "Act as a random friend that has called during the game How to became a milionnaire and reply to the questions. Don't break character. Don't ever mention that you are an AI model.Say the answer in France";
 
     void Start()
     {
-        openai = new OpenAIApi("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", "org-nhFO1n2H7QJK15XDzkNhwMj8");
+           openai = new OpenAIApi("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", "org-nhFO1n2H7QJK15XDzkNhwMj8");
+      
         if (PlayerPrefs.HasKey("difficulty"))
         {
             int difficultyIndex = PlayerPrefs.GetInt("difficulty");
             currentDifficulty = (DifficultyLevel) difficultyIndex;
         }
         difficultyText.text = "Mode de jeu: " + DifficultyLevelExtension.ToString(currentDifficulty);
-
         resultScriptableObject.ClearResults();
         InitQuestions();
         InitUI();
-    }
+       // timer.SetActive();
+        InvokeRepeating("UpdateTimer", 1.0f, 1.0f);
+    } 
 
-  
+    /*private void Update()
+    {
+        if(timer.currentTime == 0)
+        {
+            UpdateQuestion();
+        }
+    }
+    */
 
     public void ValidResponse(Button buttonClicked)
     {
@@ -65,11 +75,15 @@ public class QuestionScript : MonoBehaviour
             imageButton.color = BCColor.DarkGreen;
             outlineButton.effectColor = BCColor.DarkGreen;
             textChaptGPT.ClearMesh();
+            panelGPT.SetActive(false);
+
         }
         else
         {
             imageButton.color = BCColor.DarkRed;
             outlineButton.effectColor = BCColor.DarkRed;
+            textChaptGPT.ClearMesh();
+            panelGPT.SetActive(false);
         }
         yield return new WaitForSeconds(1.2f);
         ResetButtonColor(buttonClicked);
@@ -78,7 +92,7 @@ public class QuestionScript : MonoBehaviour
 
     private void UpdateQuestion()
     {
-    
+       // ResetTimer();
         _questionNumber++;
         if (_questionNumber <= _questionList.Count)
         {
@@ -108,42 +122,16 @@ public class QuestionScript : MonoBehaviour
 
     private void InitQuestions()
     {
-        _questionList = new List<Question>
-        {
-            new(
-                "St Pétersbourg",
-                new string[] { "Paris", "Athènes", "Rome" },
-                "Quelle de ces villes se trouve en Russie ?"
-            ),
-            new(
-                "Bicarbonate de soude",
-                new string[] { "Eau de Javel", "Sel de table", "Dolomite" },
-                "Quel est le nom courant du bicarbonate de sodium ?"
-            ),
-            new(
-                "Dane Geld",
-                new string[] { "Obligation de guerre", "Sax Bandeg", "Levy de guerre" },
-                "Quelle taxe du 9ème siècle était prélevée pour lutter contre les Vikings ?"
-            ),
-            new(
-              "Harry Potter",
-              new string[] { "Le Seigneur des Anneaux", "Une Chanson de Glace et de Feu", "Twilight" },
-              "Dans quelle série de livres apparaît 'Albus Dumbledore' ?"
-            ),
-            new(
-              "La vie",
-              new string[] { "Carillonnage", "Maladies rhumatismales", "Syphilis" },
-              "De quoi la biologie est-elle l'étude ?"
-            )
-        };
+        _questionList = questionScriptableObject.questions;
     }
+
 
     private void InitUI()
     {
         _currentQuestion = _questionList[_questionNumber - 1];
         textQuestion.text = _currentQuestion.question;
         textNumberQuestion.text = _questionNumber.ToString();
-    
+     //   textTimer.text = timer.currentTime.ToString();
         UpdateButtonText();
     }
 
@@ -203,9 +191,10 @@ public class QuestionScript : MonoBehaviour
     public void ChatGPT(Button clicked)
     {
         clicked.interactable = false;
-      
-       
-            SendRequest();
+        panelGPT.SetActive(true);
+
+
+        SendRequest();
         
         
         
