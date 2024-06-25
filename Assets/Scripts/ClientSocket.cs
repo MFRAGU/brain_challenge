@@ -13,6 +13,11 @@ public class ClientSocket
     private readonly string serverIP = "127.0.0.1"; 
     private readonly int port = 1234; 
 
+    private ClientSocket()
+    {
+        Connect();
+    }
+
     public static ClientSocket GetInstance()
     {
         if (_instance == null)
@@ -22,7 +27,7 @@ public class ClientSocket
         return _instance;
     }
 
-    public void Connect()
+    private void Connect()
     {
         try
         {

@@ -33,17 +33,8 @@ public class QuestionScript : MonoBehaviour
         resultScriptableObject.ClearResults();
         InitQuestions();
         InitUI();
-        timer.SetActive();
-        InvokeRepeating("UpdateTimer", 1.0f, 1.0f);
+        //InvokeRepeating("UpdateTimer", 1.0f, 1.0f);
     } 
-
-    private void Update()
-    {
-        if(timer.currentTime == 0)
-        {
-            UpdateQuestion();
-        }
-    }
 
     public void ValidResponse(Button buttonClicked)
     {
@@ -77,7 +68,6 @@ public class QuestionScript : MonoBehaviour
 
     private void UpdateQuestion()
     {
-        ResetTimer();
         _questionNumber++;
         if (_questionNumber <= _questionList.Count)
         {
@@ -116,7 +106,6 @@ public class QuestionScript : MonoBehaviour
         _currentQuestion = _questionList[_questionNumber - 1];
         textQuestion.text = _currentQuestion.question;
         textNumberQuestion.text = _questionNumber.ToString();
-        textTimer.text = timer.currentTime.ToString();
         UpdateButtonText();
     }
 

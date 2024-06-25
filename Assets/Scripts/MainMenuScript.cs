@@ -9,11 +9,11 @@ public class MainMenuScript : MonoBehaviour
     public Dropdown difficultyDropdown;
     public GameObject settingsWindow;
     public Difficulty difficultyLevel;
+    private ClientSocket clientSocket = ClientSocket.GetInstance();
     private readonly List<string> difficulties = new();
 
     public void Start()
     {
-        ClientSocket.GetInstance().Connect();
         initDifficulties();
         difficultyDropdown.ClearOptions();
         difficultyDropdown.AddOptions(difficulties);

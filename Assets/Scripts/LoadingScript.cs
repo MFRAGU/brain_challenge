@@ -61,7 +61,7 @@ public class LoadingScript : MonoBehaviour, ICallback<QuestionResult>
         slider.value += speed * Time.deltaTime;
 
         // Vérifie si le slider a atteint sa valeur maximale et le réinitialise
-        if (slider.value >= slider.maxValue)
+        if (slider.value == slider.maxValue)
         {
             slider.value = slider.minValue;
         }
