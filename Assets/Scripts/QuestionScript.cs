@@ -7,7 +7,8 @@ using System.Linq;
 using UnityEngine.Rendering;
 using OpenAI;
 using UnityEditor.VersionControl;
-//using UnityEngine.UIElements;
+using Unity.VisualScripting;
+
 
 
 
@@ -24,13 +25,15 @@ public class QuestionScript : MonoBehaviour
     private List<Question> _questionList;
     private Question _currentQuestion;
     private Button btn;
+    public GameObject panelGPT;
     private int _questionNumber = 1;
     private DifficultyLevel currentDifficulty;
     private string prompt = "Act as a random friend that has called during the game How to became a milionnaire and reply to the questions. Don't break character. Don't ever mention that you are an AI model.Say the answer in France";
 
     void Start()
     {
-        openai = new OpenAIApi("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", "org-nhFO1n2H7QJK15XDzkNhwMj8");
+           openai = new OpenAIApi("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", "org-nhFO1n2H7QJK15XDzkNhwMj8");
+      
         if (PlayerPrefs.HasKey("difficulty"))
         {
             int difficultyIndex = PlayerPrefs.GetInt("difficulty");
@@ -41,6 +44,7 @@ public class QuestionScript : MonoBehaviour
         resultScriptableObject.ClearResults();
         InitQuestions();
         InitUI();
+
     }
 
   
@@ -65,11 +69,15 @@ public class QuestionScript : MonoBehaviour
             imageButton.color = BCColor.DarkGreen;
             outlineButton.effectColor = BCColor.DarkGreen;
             textChaptGPT.ClearMesh();
+            panelGPT.SetActive(false);
+
         }
         else
         {
             imageButton.color = BCColor.DarkRed;
             outlineButton.effectColor = BCColor.DarkRed;
+            textChaptGPT.ClearMesh();
+            panelGPT.SetActive(false);
         }
         yield return new WaitForSeconds(1.2f);
         ResetButtonColor(buttonClicked);
@@ -143,7 +151,8 @@ public class QuestionScript : MonoBehaviour
         _currentQuestion = _questionList[_questionNumber - 1];
         textQuestion.text = _currentQuestion.question;
         textNumberQuestion.text = _questionNumber.ToString();
-    
+        panelGPT.SetActive(false);
+
         UpdateButtonText();
     }
 
@@ -203,9 +212,10 @@ public class QuestionScript : MonoBehaviour
     public void ChatGPT(Button clicked)
     {
         clicked.interactable = false;
-      
-       
-            SendRequest();
+        panelGPT.SetActive(true);
+
+
+        SendRequest();
         
         
         
