@@ -5,25 +5,32 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
 using UnityEngine.Rendering;
+using OpenAI;
+using UnityEditor.VersionControl;
+//using UnityEngine.UIElements;
+
 
 
 public class QuestionScript : MonoBehaviour
 {
+    private OpenAIApi openai ;
     public TextMeshProUGUI textNumberQuestion;
     public TextMeshProUGUI textQuestion;
-    public TextMeshProUGUI textTimer;
+    public TMP_Text textChaptGPT;
     public TMP_Text difficultyText;
     public Button[] Buttons = new Button[4];
     [SerializeField] private ResultScriptableObject resultScriptableObject;
     public GameObject settingsWindow;
-    public Timer timer = new(20);
     private List<Question> _questionList;
     private Question _currentQuestion;
+    private Button btn;
     private int _questionNumber = 1;
     private DifficultyLevel currentDifficulty;
+    private string prompt = "Act as a random friend that has called during the game How to became a milionnaire and reply to the questions. Don't break character. Don't ever mention that you are an AI model.Say the answer in France";
 
     void Start()
     {
+        openai = new OpenAIApi("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", "org-nhFO1n2H7QJK15XDzkNhwMj8");
         if (PlayerPrefs.HasKey("difficulty"))
         {
             int difficultyIndex = PlayerPrefs.GetInt("difficulty");
@@ -34,17 +41,9 @@ public class QuestionScript : MonoBehaviour
         resultScriptableObject.ClearResults();
         InitQuestions();
         InitUI();
-        timer.SetActive();
-        InvokeRepeating("UpdateTimer", 1.0f, 1.0f);
-    } 
-
-    private void Update()
-    {
-        if(timer.currentTime == 0)
-        {
-            UpdateQuestion();
-        }
     }
+
+  
 
     public void ValidResponse(Button buttonClicked)
     {
@@ -65,6 +64,7 @@ public class QuestionScript : MonoBehaviour
         {
             imageButton.color = BCColor.DarkGreen;
             outlineButton.effectColor = BCColor.DarkGreen;
+            textChaptGPT.ClearMesh();
         }
         else
         {
@@ -78,7 +78,7 @@ public class QuestionScript : MonoBehaviour
 
     private void UpdateQuestion()
     {
-        ResetTimer();
+    
         _questionNumber++;
         if (_questionNumber <= _questionList.Count)
         {
@@ -143,7 +143,7 @@ public class QuestionScript : MonoBehaviour
         _currentQuestion = _questionList[_questionNumber - 1];
         textQuestion.text = _currentQuestion.question;
         textNumberQuestion.text = _questionNumber.ToString();
-        textTimer.text = timer.currentTime.ToString();
+    
         UpdateButtonText();
     }
 
@@ -159,12 +159,13 @@ public class QuestionScript : MonoBehaviour
         List<string> propositions = s.ToList();
         propositions.Add(_currentQuestion.correctAnswer);
         Utils.Shuffle(propositions);
-        for(int i = 0; i < propositions.Count; i++) {
+        for (int i = 0; i < propositions.Count; i++)
+        {
             SetButtonText(Buttons[i], propositions[i]);
         }
     }
 
-    private void SetButtonText(Button b,  string text)
+    private void SetButtonText(Button b, string text)
     {
         b.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = text;
     }
@@ -173,10 +174,10 @@ public class QuestionScript : MonoBehaviour
     {
         return b.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text;
     }
-    
+
     private void DisableButtons()
     {
-        foreach(Button b in Buttons)
+        foreach (Button b in Buttons)
         {
             b.enabled = false;
         }
@@ -195,25 +196,71 @@ public class QuestionScript : MonoBehaviour
         SceneLoader.LoadScene(SceneName.MainMenuScene);
     }
 
-     public void OpenSettings()
+    public void OpenSettings()
     {
         settingsWindow.SetActive(true);
     }
+    public void ChatGPT(Button clicked)
+    {
+        clicked.interactable = false;
+      
+       
+            SendRequest();
+        
+        
+        
 
+    }
     public void CloseSettings()
     {
         settingsWindow.SetActive(false);
     }
 
-    private void UpdateTimer()
+   
+    //envoyer chque question 
+    private async void SendRequest()
     {
-        timer.Decrement();
-        textTimer.text = timer.currentTime.ToString();
+        Debug.Log("Button clique");
+
+        _currentQuestion = _questionList[_questionNumber - 1];
+        List<ChatMessage> Messages = new List<ChatMessage>();
+        ChatMessage newMessage = new ChatMessage();
+
+        newMessage.Role = "user";
+        newMessage.Content =  _currentQuestion.question +"Les reponses possible" +_currentQuestion.correctAnswer +_currentQuestion.incorrectAnswers;//on recupere ce que il y a dans le textQuestion
+       // Debug.Log("1 le premier message "+newMessage);
+        Messages.Add(newMessage);
+       // Debug.Log("2 tout la liste des messages : "+Messages);
+
+        CreateChatCompletionRequest req = new CreateChatCompletionRequest();
+
+        req.Messages = Messages;
+        req.Model = "gpt-3.5-turbo";
+        var res = await openai.CreateChatCompletion(req);
+        Debug.Log(res);
+        if (res.Choices != null && res.Choices.Count > 0)
+
+        {
+
+            var reponse = res.Choices[0].Message;
+           // reponse.Content = reponse.Content.Trim();
+
+            Messages.Add(reponse);
+           textChaptGPT.text= reponse.Content;//affichage de reponse 
+            Debug.Log("3"+reponse.Content);
+         
+
+
+
+        }
+        else
+        {
+            Debug.LogWarning("No text was generated from this prompt.");
+        }
+        
+
+
     }
 
-    private void ResetTimer()
-    {
-        timer.Reset();
-        textTimer.text = timer.currentTime.ToString();
-    }
 }
+
