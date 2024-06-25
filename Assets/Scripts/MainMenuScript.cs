@@ -6,20 +6,21 @@ using System.Collections.Generic;
 
 public class MainMenuScript : MonoBehaviour 
 {
-   public Dropdown difficultyDropdown;
-   public GameObject settingsWindow;
-   public DifficultyLevel difficultyLevel;
-   private readonly List<string> difficulties = new();
+    public Dropdown difficultyDropdown;
+    public GameObject settingsWindow;
+    public Difficulty difficultyLevel;
+    private readonly List<string> difficulties = new();
 
     public void Start()
     {
-       initDifficulties();
+        ClientSocket.GetInstance().Connect();
+        initDifficulties();
         difficultyDropdown.ClearOptions();
         difficultyDropdown.AddOptions(difficulties);
 
         if (!PlayerPrefs.HasKey("difficulty"))
         {
-            int randomIndex = difficulties.IndexOf(DifficultyLevelExtension.ToString(DifficultyLevel.Random));
+            int randomIndex = difficulties.IndexOf(DifficultyLevelExtension.ToString(Difficulty.RANDOM));
             difficultyDropdown.value = randomIndex;
             PlayerPrefs.SetInt("difficulty", randomIndex);
         }
@@ -27,9 +28,7 @@ public class MainMenuScript : MonoBehaviour
         {
             difficultyDropdown.value = PlayerPrefs.GetInt("difficulty");
         }
-
-         difficultyDropdown.onValueChanged.AddListener(OnDifficultyChanged);
-       
+        difficultyDropdown.onValueChanged.AddListener(OnDifficultyChanged);
     }
 
     public void StartGame()
@@ -54,7 +53,7 @@ public class MainMenuScript : MonoBehaviour
 
     private void initDifficulties()
     {
-        foreach (DifficultyLevel difficultyLevel in Enum.GetValues(typeof(DifficultyLevel)))
+        foreach (Difficulty difficultyLevel in Enum.GetValues(typeof(Difficulty)))
         {
             string d = DifficultyLevelExtension.ToString(difficultyLevel);
             difficulties.Add(d);

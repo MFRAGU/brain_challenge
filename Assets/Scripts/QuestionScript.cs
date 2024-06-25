@@ -4,7 +4,6 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
-using UnityEngine.Rendering;
 
 
 public class QuestionScript : MonoBehaviour
@@ -14,24 +13,23 @@ public class QuestionScript : MonoBehaviour
     public TextMeshProUGUI textTimer;
     public TMP_Text difficultyText;
     public Button[] Buttons = new Button[4];
-    [SerializeField] private ResultScriptableObject resultScriptableObject;
     public GameObject settingsWindow;
-    public Timer timer = new(20);
+    [SerializeField] private ResultScriptableObject resultScriptableObject;
+    [SerializeField] private QuestionScriptableObject questionScriptableObject;
     private List<Question> _questionList;
     private Question _currentQuestion;
     private int _questionNumber = 1;
-    private DifficultyLevel currentDifficulty;
-    public QuestionScriptableObject RecupQuestionScriptable;
+    private Difficulty currentDifficulty;
+    public Timer timer = new(20);
 
     void Start()
     {
         if (PlayerPrefs.HasKey("difficulty"))
         {
             int difficultyIndex = PlayerPrefs.GetInt("difficulty");
-            currentDifficulty = (DifficultyLevel) difficultyIndex;
+            currentDifficulty = (Difficulty) difficultyIndex;
         }
         difficultyText.text = "Mode de jeu: " + DifficultyLevelExtension.ToString(currentDifficulty);
-
         resultScriptableObject.ClearResults();
         InitQuestions();
         InitUI();
@@ -109,7 +107,7 @@ public class QuestionScript : MonoBehaviour
 
     private void InitQuestions()
     {
-         _questionList = RecupQuestionScriptable.questions;
+        _questionList = questionScriptableObject.questions;
     }
 
 

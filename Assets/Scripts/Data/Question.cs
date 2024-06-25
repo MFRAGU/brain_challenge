@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class Question
 {
-    public string correctAnswer { get; private set; }
-    public string[] incorrectAnswers { get; private set; }
-    public string question { get; private set; }
+    public string correctAnswer;
+    public string[] incorrectAnswers;
+    public string question;
 
     public Question(
         string correctAnswer,

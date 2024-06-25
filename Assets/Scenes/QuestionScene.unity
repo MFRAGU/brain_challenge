@@ -3253,9 +3253,9 @@ MonoBehaviour:
   - {fileID: 577030654}
   - {fileID: 1094342203}
   - {fileID: 1235814483}
-  resultScriptableObject: {fileID: 11400000, guid: 64a623b1c86ea73498c259cc24c140b5, type: 2}
   settingsWindow: {fileID: 634185519}
-  RecupQuestionScriptable: {fileID: 11400000, guid: 8d3a35744e5d447d2b173b99b1764aa1, type: 2}
+  resultScriptableObject: {fileID: 11400000, guid: 64a623b1c86ea73498c259cc24c140b5, type: 2}
+  questionScriptableObject: {fileID: 11400000, guid: 8d3a35744e5d447d2b173b99b1764aa1, type: 2}
 --- !u!114 &1722674632
 MonoBehaviour:
   m_ObjectHideFlags: 0

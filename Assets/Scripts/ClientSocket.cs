@@ -1,11 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using System.Net.Sockets;
 using System;
-
-
 
 public class ClientSocket
 {
@@ -14,22 +10,19 @@ public class ClientSocket
     private StreamWriter writer;
     private static ClientSocket _instance;
 
-    private readonly string serverIP = "locahost"; 
+    private readonly string serverIP = "127.0.0.1"; 
     private readonly int port = 1234; 
 
-    private ClientSocket(){}
-
     public static ClientSocket GetInstance()
+    {
+        if (_instance == null)
         {
-            if (_instance == null)
-            {
-                _instance = new ClientSocket();
-            }
-            return _instance;
+            _instance = new ClientSocket();
         }
+        return _instance;
+    }
 
-
-     public void Connect()
+    public void Connect()
     {
         try
         {
@@ -60,24 +53,17 @@ public class ClientSocket
         }
     }
 
-    public string SendMessage(Request requete)
+    public string SendMessage(string message)
     {
-        // try
-        //{
-            string jsonRequest = JsonUtility.ToJson(requete);
-            writer.WriteLine(jsonRequest);
-            string jsonResponse = reader.ReadLine();
-
-            return jsonResponse;
-       // }
-       // catch (Exception e)
-       // {
-            //Debug.LogError(e);
-           // return "Error in sending request";
-       // }
+        try
+        {
+            writer.WriteLine(message);
+            return reader.ReadLine();
+        }
+        catch (Exception e)
+        {
+            Debug.LogError(e);
+            return "Error sending request";
+        }
     }
-
-   
-
-   
 }

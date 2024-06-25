@@ -1,42 +1,50 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using System.Net.Sockets;
+using Newtonsoft.Json;
 using System;
-using UnityEngine.UI;
+using UnityEngine;
 
 public class QuestionSocketUseCase
 {
-    private ClientSocket clientSocket = ClientSocket.GetInstance();
-    private Callback <QuestionResult> callBack; 
+   private readonly ClientSocket _clientSocket = ClientSocket.GetInstance();
 
-   public void SendRandomQuestionRequest()
-    {
-        Debug.Log("Envoi de message Random");
-        QuestionRequest request = new QuestionRequest(Type.QUESTION, QuestionRequestAction.RANDOM);
-        string response = clientSocket.SendMessage(request);
-        ParseResult(response);
+   public void SendRandomQuestionRequest(ICallback<QuestionResult> callback)
+   {
+        Debug.Log("Sending random question request...");
+        QuestionRequest questionRequest = new(Type.QUESTION, QuestionRequestAction.RANDOM);
+        string jsonRequest = JsonConvert.SerializeObject(questionRequest);
+        string response = _clientSocket.SendMessage(jsonRequest);
+        ParseResult(response, callback);
   
+   }
+
+   public void SendDifficultyQuestionRequest(Difficulty difficultyLevel, ICallback<QuestionResult> callback)
+   {
+        Debug.Log("Sending question by difficulty request...");
+        QuestionRequest questionRequest = new(Type.QUESTION, QuestionRequestAction.DIFFICULTY, difficultyLevel.ToString());
+        string jsonRequest = JsonConvert.SerializeObject(questionRequest);
+        string response = _clientSocket.SendMessage(jsonRequest);
+        ParseResult(response, callback);
     }
 
-   public void SendDifficultyQuestionRequest(DifficultyLevel difficultyLevel)
+    private void ParseResult(string result, ICallback<QuestionResult> callback)
     {
-        Debug.Log("Envoi de message Difficulty");
-        QuestionRequest request = new QuestionRequest(Type.QUESTION, QuestionRequestAction.DIFFICULTY, difficultyLevel.ToString());
-        string response = clientSocket.SendMessage(request);
-        ParseResult(response);
-    }
-
-    private void ParseResult(string result){
-        try{
-            JsonUtility.FromJson<QuestionResult>(result);
-            QuestionResult resultJson = JsonUtility.FromJson<QuestionResult>(result);
-            callBack.OnSuccess(resultJson);
-            Debug.Log("Résultat reçu");
-        }catch (Exception e)
+        try
         {
-            callBack.OnError(e.Message);
+            QuestionResultDTO questionResultDTO = JsonConvert.DeserializeObject<QuestionResultDTO>(result);
+            callback.OnSuccess(questionResultDTO.ToQuestionResult());
+            Debug.Log("Get question result sucessful");
+        }
+        catch (JsonSerializationException e)
+        {
+            ErrorResult errorResult = JsonUtility.FromJson<ErrorResult>(result);
+            callback.OnError(errorResult.message);
+            Debug.LogError("Error get question result: " + errorResult.message);
             Debug.LogError(e);
+        }
+        catch (Exception ex)
+        {
+            callback.OnError("Unexpected error: " + ex.Message);
+            Debug.LogError("Unexpected error: " + ex.Message);
+            Debug.LogError(ex);
         }
     }
 }
