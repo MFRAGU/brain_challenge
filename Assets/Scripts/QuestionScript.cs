@@ -11,14 +11,18 @@ using UnityEngine.SceneManagement;
 using System.Drawing;
 
 using UnityEngine.Rendering;
+using OpenAI;
+
+
 
 
 
 public class QuestionScript : MonoBehaviour
 {
+    private OpenAIApi openai ;
     public TextMeshProUGUI textNumberQuestion;
     public TextMeshProUGUI textQuestion;
-    public TextMeshProUGUI textTimer;
+    public TMP_Text textChaptGPT;
     public TMP_Text difficultyText;
     public Button[] buttons = new Button[4];
     public GameObject settingsWindow;
@@ -27,6 +31,8 @@ public class QuestionScript : MonoBehaviour
     [SerializeField] private QuestionScriptableObject questionScriptableObject;
     private List<Question> _questionList;
     private Question _currentQuestion;
+    private Button btn;
+    public GameObject panelGPT;
     private int _questionNumber = 1;
     private Difficulty currentDifficulty;
     private readonly AsteriskRequestUseCase _asteriskRequestUseCase = new();
@@ -35,9 +41,13 @@ public class QuestionScript : MonoBehaviour
 
  
 
+    private DifficultyLevel currentDifficulty;
+    private string prompt = "Act as a random friend that has called during the game How to became a milionnaire and reply to the questions. Don't break character. Don't ever mention that you are an AI model.Say the answer in France";
 
     void Start()
     {
+           openai = new OpenAIApi("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", "org-nhFO1n2H7QJK15XDzkNhwMj8");
+      
         if (PlayerPrefs.HasKey("difficulty"))
         {
             int difficultyIndex = PlayerPrefs.GetInt("difficulty");
@@ -47,7 +57,18 @@ public class QuestionScript : MonoBehaviour
         resultScriptableObject.ClearResults();
         InitQuestions();
         InitUI();
+       // timer.SetActive();
+        InvokeRepeating("UpdateTimer", 1.0f, 1.0f);
     } 
+
+    /*private void Update()
+    {
+        if(timer.currentTime == 0)
+        {
+            UpdateQuestion();
+        }
+    }
+    */
 
     public void ValidResponse(Button buttonClicked)
     {
@@ -70,7 +91,9 @@ public class QuestionScript : MonoBehaviour
         {
             imageButton.color = BCColor.DarkGreen;
             outlineButton.effectColor = BCColor.DarkGreen;
-           
+            textChaptGPT.ClearMesh();
+            panelGPT.SetActive(false);
+
         }
         else
         {
@@ -86,6 +109,8 @@ public class QuestionScript : MonoBehaviour
                
             }
 
+            textChaptGPT.ClearMesh();
+            panelGPT.SetActive(false);
         }
         yield return new WaitForSeconds(1);
         ResetButtonColor();
@@ -94,6 +119,7 @@ public class QuestionScript : MonoBehaviour
 
     private void UpdateQuestion()
     {
+       // ResetTimer();
         _questionNumber++;
         if (_questionNumber <= _questionList.Count)
         {
@@ -155,13 +181,16 @@ public class QuestionScript : MonoBehaviour
               "De quoi la biologie est-elle l'�tude ?"
             )
         };
+       // _questionList = questionScriptableObject.questions;
     }
+
 
     private void InitUI()
     {
         _currentQuestion = _questionList[_questionNumber - 1];
         textQuestion.text = _currentQuestion.question;
         textNumberQuestion.text = _questionNumber.ToString();
+     //   textTimer.text = timer.currentTime.ToString();
         UpdateButtonText();
     }
 
@@ -184,7 +213,7 @@ public class QuestionScript : MonoBehaviour
         }
     }
 
-    private void SetButtonText(Button b,  string text)
+    private void SetButtonText(Button b, string text)
     {
         b.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = text;
     }
@@ -193,7 +222,7 @@ public class QuestionScript : MonoBehaviour
     {
         return b.transform.GetChild(1).GetComponent<TextMeshProUGUI>().text;
     }
-    
+
     private void DisableButtons()
     {
         foreach(Button b in buttons)
@@ -220,7 +249,18 @@ public class QuestionScript : MonoBehaviour
     {
         settingsWindow.SetActive(true);
     }
+    public void ChatGPT(Button clicked)
+    {
+        clicked.interactable = false;
+        panelGPT.SetActive(true);
 
+
+        SendRequest();
+        
+        
+        
+
+    }
     public void CloseSettings()
     {
         settingsWindow.SetActive(false);
@@ -238,4 +278,51 @@ public class QuestionScript : MonoBehaviour
     {
         await Task.Run(() => _asteriskRequestUseCase.SendCallRequest());
     }
+   
+    //envoyer chque question 
+    private async void SendRequest()
+    {
+        Debug.Log("Button clique");
+
+        _currentQuestion = _questionList[_questionNumber - 1];
+        List<ChatMessage> Messages = new List<ChatMessage>();
+        ChatMessage newMessage = new ChatMessage();
+
+        newMessage.Role = "user";
+        newMessage.Content =  _currentQuestion.question +"Les reponses possible" +_currentQuestion.correctAnswer +_currentQuestion.incorrectAnswers;//on recupere ce que il y a dans le textQuestion
+       // Debug.Log("1 le premier message "+newMessage);
+        Messages.Add(newMessage);
+       // Debug.Log("2 tout la liste des messages : "+Messages);
+
+        CreateChatCompletionRequest req = new CreateChatCompletionRequest();
+
+        req.Messages = Messages;
+        req.Model = "gpt-3.5-turbo";
+        var res = await openai.CreateChatCompletion(req);
+        Debug.Log(res);
+        if (res.Choices != null && res.Choices.Count > 0)
+
+        {
+
+            var reponse = res.Choices[0].Message;
+           // reponse.Content = reponse.Content.Trim();
+
+            Messages.Add(reponse);
+           textChaptGPT.text= reponse.Content;//affichage de reponse 
+            Debug.Log("3"+reponse.Content);
+         
+
+
+
+        }
+        else
+        {
+            Debug.LogWarning("No text was generated from this prompt.");
+        }
+        
+
+
+    }
+
 }
+
