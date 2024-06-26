@@ -18,7 +18,7 @@ public class ResultScript : MonoBehaviour
     [SerializeField]//let to touch objects in order to show them in the editot
     public ResultHandler resultHandlers; //gonna stock all the texte of the ui
     public GameObject coloredObject;
-    private Dictionary<Question, string> _result;
+    public Dictionary<Question, string> _result;
     public Button butonRestart;
     public Button butonQuit;
 

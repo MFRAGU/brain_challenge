@@ -77,7 +77,7 @@ public class QuestionScript : MonoBehaviour
             imageButton.color = BCColor.DarkRed;
             outlineButton.effectColor = BCColor.DarkRed;
             yield return new WaitForSeconds(1);
-            foreach ( Button butonRight in Buttons) {
+            foreach ( Button butonRight in buttons) {
                 string answer = _currentQuestion.correctAnswer;
                 if ( answer == GetButtonText(butonRight)){
                     butonRight.GetComponent<Image>().color = BCColor.DarkGreen;
@@ -167,7 +167,7 @@ public class QuestionScript : MonoBehaviour
 
     private void ResetButtonColor()
     {
-        foreach (Button button in Buttons) {
+        foreach (Button button in buttons) {
             button.GetComponent<Image>().color = BCColor.DarkPurple;
             button.GetComponent<Outline>().effectColor = BCColor.LightPurple;
         }
