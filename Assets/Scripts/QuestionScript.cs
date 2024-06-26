@@ -7,6 +7,13 @@ using UnityEngine.UI;
 using System.Linq;
 
 
+using UnityEngine.SceneManagement;
+using System.Drawing;
+
+using UnityEngine.Rendering;
+
+
+
 public class QuestionScript : MonoBehaviour
 {
     public TextMeshProUGUI textNumberQuestion;
@@ -23,6 +30,11 @@ public class QuestionScript : MonoBehaviour
     private int _questionNumber = 1;
     private Difficulty currentDifficulty;
     private readonly AsteriskRequestUseCase _asteriskRequestUseCase = new();
+
+   
+
+ 
+
 
     void Start()
     {
@@ -41,29 +53,42 @@ public class QuestionScript : MonoBehaviour
     {
         DisableButtons();
         string response = GetButtonText(buttonClicked);
+     
         Image imageButton = buttonClicked.GetComponent<Image>();
         imageButton.color = BCColor.LightPurple;
         resultScriptableObject.AddResult(_currentQuestion, response);
         StartCoroutine(UpdateUI(buttonClicked, response));
     }
+   
 
     private IEnumerator UpdateUI(Button buttonClicked, string response)
     {
         Image imageButton = buttonClicked.GetComponent<Image>();
         Outline outlineButton = buttonClicked.GetComponent<Outline>();
-        yield return new WaitForSeconds(1.2f);
+        yield return new WaitForSeconds(1);
         if (ResponseIsCorrect(response))
         {
             imageButton.color = BCColor.DarkGreen;
             outlineButton.effectColor = BCColor.DarkGreen;
+           
         }
         else
         {
             imageButton.color = BCColor.DarkRed;
             outlineButton.effectColor = BCColor.DarkRed;
+            yield return new WaitForSeconds(1);
+            foreach ( Button butonRight in Buttons) {
+                string answer = _currentQuestion.correctAnswer;
+                if ( answer == GetButtonText(butonRight)){
+                    butonRight.GetComponent<Image>().color = BCColor.DarkGreen;
+                    butonRight.GetComponent<Outline>().effectColor = BCColor.DarkGreen;
+                }
+               
+            }
+
         }
-        yield return new WaitForSeconds(1.2f);
-        ResetButtonColor(buttonClicked);
+        yield return new WaitForSeconds(1);
+        ResetButtonColor();
         UpdateQuestion();
     }
 
@@ -88,17 +113,48 @@ public class QuestionScript : MonoBehaviour
     {
         if (response == _questionList[_questionNumber - 1].correctAnswer)
         {
+         
+           
             return true;
         }
         else
         {
+           
+           
             return false;
         }
     }
 
     private void InitQuestions()
     {
-        _questionList = questionScriptableObject.questions;
+        _questionList = new List<Question>
+        {
+            new(
+                "St P�tersbourg",
+                new string[] { "Paris", "Athènes", "Rome" },
+                "Quelle de ces villes se trouve en Russie ?"
+            ),
+            new(
+                "Bicarbonate de soude",
+                new string[] { "Eau de Javel", "Sel de table", "Dolomite" },
+                "Quel est le nom courant du bicarbonate de sodium ?"
+            ),
+            new(
+                "Dane Geld",
+                new string[] { "Obligation de guerre", "Sax Bandeg", "Levy de guerre" },
+                "Quelle taxe du 9�me si�cle �tait pr�lev�e pour lutter contre les Vikings ?"
+            ),
+            new(
+              "Harry Potter",
+              new string[] { "Le Seigneur des Anneaux", "Une Chanson de Glace et de Feu", "Twilight" },
+              "Dans quelle s�rie de livres apparait 'Albus Dumbledore' ?"
+            ),
+            new(
+              "La vie",
+              new string[] { "Carillonnage", "Maladies rhumatismales", "Syphilis" },
+              "De quoi la biologie est-elle l'�tude ?"
+            )
+        };
     }
 
     private void InitUI()
@@ -109,10 +165,12 @@ public class QuestionScript : MonoBehaviour
         UpdateButtonText();
     }
 
-    private void ResetButtonColor(Button button)
+    private void ResetButtonColor()
     {
-        button.GetComponent<Image>().color = BCColor.DarkPurple;
-        button.GetComponent<Outline>().effectColor = BCColor.LightPurple;
+        foreach (Button button in Buttons) {
+            button.GetComponent<Image>().color = BCColor.DarkPurple;
+            button.GetComponent<Outline>().effectColor = BCColor.LightPurple;
+        }
     }
 
     private void UpdateButtonText()
@@ -149,6 +207,7 @@ public class QuestionScript : MonoBehaviour
         foreach (Button b in buttons)
         {
             b.enabled = true;
+          
         }
     }
 
