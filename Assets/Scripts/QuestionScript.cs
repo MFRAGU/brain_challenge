@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
@@ -12,15 +13,16 @@ public class QuestionScript : MonoBehaviour
     public TextMeshProUGUI textQuestion;
     public TextMeshProUGUI textTimer;
     public TMP_Text difficultyText;
-    public Button[] Buttons = new Button[4];
+    public Button[] buttons = new Button[4];
     public GameObject settingsWindow;
+    public Button buttonAsterisk;
     [SerializeField] private ResultScriptableObject resultScriptableObject;
     [SerializeField] private QuestionScriptableObject questionScriptableObject;
     private List<Question> _questionList;
     private Question _currentQuestion;
     private int _questionNumber = 1;
     private Difficulty currentDifficulty;
-    public Timer timer = new(20);
+    private readonly AsteriskRequestUseCase _asteriskRequestUseCase = new();
 
     void Start()
     {
@@ -33,7 +35,6 @@ public class QuestionScript : MonoBehaviour
         resultScriptableObject.ClearResults();
         InitQuestions();
         InitUI();
-        //InvokeRepeating("UpdateTimer", 1.0f, 1.0f);
     } 
 
     public void ValidResponse(Button buttonClicked)
@@ -100,7 +101,6 @@ public class QuestionScript : MonoBehaviour
         _questionList = questionScriptableObject.questions;
     }
 
-
     private void InitUI()
     {
         _currentQuestion = _questionList[_questionNumber - 1];
@@ -122,7 +122,7 @@ public class QuestionScript : MonoBehaviour
         propositions.Add(_currentQuestion.correctAnswer);
         Utils.Shuffle(propositions);
         for(int i = 0; i < propositions.Count; i++) {
-            SetButtonText(Buttons[i], propositions[i]);
+            SetButtonText(buttons[i], propositions[i]);
         }
     }
 
@@ -138,7 +138,7 @@ public class QuestionScript : MonoBehaviour
     
     private void DisableButtons()
     {
-        foreach(Button b in Buttons)
+        foreach(Button b in buttons)
         {
             b.enabled = false;
         }
@@ -146,7 +146,7 @@ public class QuestionScript : MonoBehaviour
 
     private void EnableButtons()
     {
-        foreach (Button b in Buttons)
+        foreach (Button b in buttons)
         {
             b.enabled = true;
         }
@@ -157,7 +157,7 @@ public class QuestionScript : MonoBehaviour
         SceneLoader.LoadScene(SceneName.MainMenuScene);
     }
 
-     public void OpenSettings()
+    public void OpenSettings()
     {
         settingsWindow.SetActive(true);
     }
@@ -167,15 +167,16 @@ public class QuestionScript : MonoBehaviour
         settingsWindow.SetActive(false);
     }
 
-    private void UpdateTimer()
+    public void ClickButtonAsterisk(Button b)
     {
-        timer.Decrement();
-        textTimer.text = timer.currentTime.ToString();
+        b.enabled = false;
+        b.transform.GetChild(0).GetComponent<Image>().color = BCColor.DarkGrey;
+        b.GetComponentInChildren<Text>().text = "";
+        CallAsterisk();
     }
 
-    private void ResetTimer()
+    private async Task CallAsterisk()
     {
-        timer.Reset();
-        textTimer.text = timer.currentTime.ToString();
+        await Task.Run(() => _asteriskRequestUseCase.SendCallRequest());
     }
 }
