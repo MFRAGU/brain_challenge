@@ -41,7 +41,7 @@ public class QuestionScript : MonoBehaviour
 
  
 
-    private DifficultyLevel currentDifficulty;
+ 
     private string prompt = "Act as a random friend that has called during the game How to became a milionnaire and reply to the questions. Don't break character. Don't ever mention that you are an AI model.Say the answer in France";
 
     void Start()
@@ -92,7 +92,7 @@ public class QuestionScript : MonoBehaviour
             imageButton.color = BCColor.DarkGreen;
             outlineButton.effectColor = BCColor.DarkGreen;
             textChaptGPT.ClearMesh();
-            panelGPT.SetActive(false);
+          
 
         }
         else
@@ -110,7 +110,7 @@ public class QuestionScript : MonoBehaviour
             }
 
             textChaptGPT.ClearMesh();
-            panelGPT.SetActive(false);
+         
         }
         yield return new WaitForSeconds(1);
         ResetButtonColor();
@@ -283,7 +283,7 @@ public class QuestionScript : MonoBehaviour
     private async void SendRequest()
     {
         Debug.Log("Button clique");
-
+        /*
         _currentQuestion = _questionList[_questionNumber - 1];
         List<ChatMessage> Messages = new List<ChatMessage>();
         ChatMessage newMessage = new ChatMessage();
@@ -319,7 +319,7 @@ public class QuestionScript : MonoBehaviour
         {
             Debug.LogWarning("No text was generated from this prompt.");
         }
-        
+        */
 
 
     }
