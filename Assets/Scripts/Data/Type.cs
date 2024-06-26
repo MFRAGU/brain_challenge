@@ -6,5 +6,6 @@ using Newtonsoft.Json;
 public enum Type
 {
     QUESTION,
+    ASTERISK,
     ERROR
 }

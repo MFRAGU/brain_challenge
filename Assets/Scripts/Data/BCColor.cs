@@ -8,4 +8,5 @@ public class BCColor : MonoBehaviour
     public readonly static Color Yellow = new(0.89f, 0.80f, 0f);
     public readonly static Color DarkRed = new(0.54f, 0f, 0f);
     public readonly static Color DarkGreen = new(0f, 0.39f, 0f);
+    public readonly static Color DarkGrey = new(0.6f, 0.6f, 0.6f);
 }
