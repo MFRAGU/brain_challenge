@@ -10,7 +10,7 @@ public class ResultHandler
   
     public TextMeshProUGUI question;
     public TextMeshProUGUI answer_user;
-    public TextMeshProUGUI? correct_answer;
+    public TextMeshProUGUI correct_answer;
 
 
 }

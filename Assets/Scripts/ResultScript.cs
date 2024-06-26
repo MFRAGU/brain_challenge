@@ -16,7 +16,7 @@ public class ResultScript : MonoBehaviour
 
     public ResultScriptableObject scriptableObject;
     [SerializeField]//let to touch objects in order to show them in the editot
-    public List<ResultHandler> resultHandlers; //gonna stock all the texte of the ui
+    public ResultHandler resultHandlers; //gonna stock all the texte of the ui
     public GameObject coloredObject;
     private Dictionary<Question, string> _result;
     public Button butonRestart;
@@ -46,8 +46,8 @@ public class ResultScript : MonoBehaviour
             qst = r.Key;
 
             string reponse = r.Value;
-            int i = 0;
-            ResultHandler handler = resultHandlers[i];
+            
+            ResultHandler handler = resultHandlers;
             if (handler != null)
             {
 
@@ -57,16 +57,14 @@ public class ResultScript : MonoBehaviour
                     textScoreRight.text = trueAnswer.ToString() + " réponses correctées ";
                     textScoreRight.color = BCColor.DarkGreen;
 
-                    handler.correct_answer.text = qst.question;
-                    handler.correct_answer.text = "Réponse entrée: " + qst.correctAnswer;
+                   
                 }
                 else
                 {
                     falseAnswer++;
                     textScoreFalse.text = falseAnswer.ToString() + " mauvaises réponses";
                     textScoreFalse.color = BCColor.DarkRed;
-                    handler.correct_answer.text = "Réponse entrée: " + reponse;
-                    handler.correct_answer.text = "Réponse attendu: " + qst.correctAnswer;
+                 
                 }
             }
             TextCongrat();
